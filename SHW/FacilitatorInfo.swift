@@ -475,8 +475,8 @@ func addCollection(n:String) ->String  {
     
     request.HTTPMethod = "POST"
     //要改参数类型
-    var param:String = "{\"cityName\":\"\(cityName)市\"}"
-    println("城市:\(cityName)")
+    var param:String = "{\"cityName\":\"\(cityName)\"}"
+    println("cityName:\(cityName)") 
     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
     var response:NSURLResponse?
@@ -490,7 +490,7 @@ func addCollection(n:String) ->String  {
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-        println(jsonString)
+       println(jsonString)
         
     }
     
@@ -503,11 +503,10 @@ func addCollection(n:String) ->String  {
     var countyData:[String] = []
     if  serverResponse == "Success" {
     var test2: AnyObject?=json.objectForKey("data")
-    println("test2:\(test2)")
+    
     let jsonArray = test2 as? NSArray
     var count = jsonArray?.count
-     println("jsonArray:\(jsonArray)")
-     println("count:\(count)")
+   
         
         
     for value in jsonArray!{
@@ -532,6 +531,8 @@ func addCollection(n:String) ->String  {
             
         }
     }
+    
     return countyData
+    
         
  }

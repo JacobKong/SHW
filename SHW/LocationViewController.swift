@@ -185,14 +185,12 @@ class LocationViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         isCovered = CityHandle().QueryCovered(selectedCity.cityName as  String)
         
-        
+        println("isCovered\(isCovered)")
         if  (isCovered == "true") {
             
             
          saveNSUerDefaults()
          self.performSegueWithIdentifier("toLocation", sender: self)
-            
-            
           println("跳转3")
         }else {
             

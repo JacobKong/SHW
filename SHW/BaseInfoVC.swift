@@ -52,15 +52,21 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
     //存储查询的用户信息
     var  Info:MyInfo!
     
-    var provinces = [String: [String]]()
-    var cities = [String]()
+    
     //选择的城市和地区
-    var city:String!
-    var  county:String!
+    var  selectprovince:String!
+    var selectcity:String!
+    var  selectcounty:String!
+    
+    var root:NSArray = []
+    var provinces:NSArray = []
+    var  dictionary1:NSDictionary!
+    var province:String = ""
+    var cities:NSArray = []
+    var areas:NSArray = []
     
     var scrollView = UIScrollView()
     var pageWidth:CGFloat!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -283,17 +289,31 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
         
         
         
-        provinces = ["沈阳市":["和平区","大东区","沈河区","皇姑区","铁西区","浑南区","于洪区","沈北新区","苏家屯区","新民市","辽中县","康平县","法库县"]]
-        cities = provinces.values.array[0]
-        println("cities:\(cities)")
         pickview = UIPickerView()
         pickview.tag = 2
-        
+        pickview.delegate = self
         pickview.dataSource = self
+        let listPath  = NSBundle.mainBundle().pathForResource("area.plist", ofType: nil)
+        //第一层
+        
+        root =  NSMutableArray(contentsOfFile:listPath!)!//root
+        
+        dictionary1 = root.objectAtIndex(0) as! NSDictionary//item0
+        //第二层
+        
+        cities = dictionary1.objectForKey("cities") as! NSArray
+        
+        let dictionary2:NSDictionary =  cities.objectAtIndex(0) as! NSDictionary
+        //第三层
+        
+        areas = dictionary2.objectForKey("areas") as! NSArray
+        
         dizhi = UITextField(frame: CGRectMake((CGFloat(145), CGFloat(customY+8*37),CGFloat(pageWidth-150), CGFloat(34))))
         dizhi.borderStyle = UITextBorderStyle.RoundedRect
-        dizhi.text = "\(Info.customerProvince)\(Info.customerCity)\(Info.customerCounty)"
-        //dizhi.text = "wqwiiieiuwcjcsjcwkkx"
+        selectprovince = Info.customerProvince
+        selectcity = Info.customerCity
+        selectcounty = Info.customerCounty
+        dizhi.text = "\(selectprovince)省 \(selectcity)市 \(selectcounty)"
         dizhi.adjustsFontSizeToFitWidth=true  //当文字超出文本框宽度时，自动调整文字大小
         dizhi.minimumFontSize=14
         //dizhi.becomeFirstResponder()
@@ -304,6 +324,7 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
         
         dizhi.inputAccessoryView = toolbar
         scrollView.addSubview(dizhi)
+
         
         contactAddress = UITextField(frame: CGRectMake((CGFloat(145), CGFloat(customY+9*37),CGFloat(pageWidth-150), CGFloat(34))))
         contactAddress.borderStyle = UITextBorderStyle.RoundedRect
@@ -326,26 +347,22 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
         customerBirthday.resignFirstResponder()
         
         // NSDate转化NSString
-        var s = datePicker.date
-        var dateFormatter = NSDateFormatter()
+        let s = datePicker.date
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        var Date = dateFormatter.stringFromDate(s)
+        let Date = dateFormatter.stringFromDate(s)
         customerBirthday.text = "\(Date)"
         
         customerGender.resignFirstResponder()
         let n = Genderpick.selectedRowInComponent(0)
         customerGender.text = Gender[n]
         
+        
         dizhi.resignFirstResponder()
-        let provinceNum = pickview.selectedRowInComponent(0)
-        
-        let cityNum = pickview.selectedRowInComponent(1)
         
         
-        dizhi.text = "\(provinces.keys.array[provinceNum]) \(cities[cityNum])"
-        println("dizhi:\(dizhi.text)")
-        city = provinces.keys.array[provinceNum]
-        county = cities[cityNum]
+        dizhi.text = "\(selectprovince)省 \(selectcity)市 \(selectcounty)"
+
         
         
         
@@ -356,7 +373,7 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
         if pickerView.tag == 1{
             return 1
         }else if pickerView.tag == 2{
-            return 2
+            return 3
         }
         return 1
     }
@@ -365,12 +382,20 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == 2{
             if component == 0 {
-                //return month.count
-                return provinces.count
+                
+                return root.count
             }
+            
+            
             if component == 1 {
-                //            return week.count
+                
                 return cities.count
+                
+            }
+            
+            if component == 2 {
+                
+                return areas.count
                 
             }
         }else if pickerView.tag == 1{
@@ -384,19 +409,25 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
     
     //设置每行具体内容（titleForRow 和 viewForRow 二者实现其一即可）
     
-    func  pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func  pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView.tag == 1{
             
             return Gender[row]
         }else{
             if component == 0 {
                 //return month[row]
-                return provinces.keys.array[row]
+                //return provinces.keys.array[row]
+                return root[row].objectForKey("state") as? String
             }
             
             if component == 1{
                 //return week[row]
-                return cities[row]
+                return cities[row].objectForKey("city") as? String
+                
+            }
+            if component == 2{
+                //return week[row]
+                return areas[row] as? String
                 
             }
         }
@@ -410,24 +441,63 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
         if pickerView.tag  == 2 {
             if(component == 0){
                 
-                cities = provinces[provinces.keys.array[row]]!
+                dictionary1 = root.objectAtIndex(row) as! NSDictionary//item0
+                //第二层
+                
+                
+                cities = dictionary1.objectForKey("cities") as! NSArray
                 
                 // 重新加载二级选项并复位
                 
                 pickerView.reloadComponent(1)
                 pickerView.selectRow(0, inComponent: 1, animated: true)
                 
+                let dictionary2:NSDictionary =  cities.objectAtIndex(0) as! NSDictionary
+                
+                areas = dictionary2.objectForKey("areas") as! NSArray
+                
+                // 重新加载三级选项并复位
+                
+                pickerView.reloadComponent(2)
+                pickerView.selectRow(0, inComponent: 2, animated: true)
+                
+            }
+            
+            if(component == 1){
+                
+                let dictionary2:NSDictionary =  cities.objectAtIndex(row) as! NSDictionary
+                
+                areas = dictionary2.objectForKey("areas") as! NSArray
+                
+                // 重新加载三级选项并复位
+                
+                pickerView.reloadComponent(2)
+                pickerView.selectRow(0, inComponent: 2, animated: true)
+                
+                
+                
+                
+            }
+            
+            let provinceNum = pickview.selectedRowInComponent(0)
+            
+            let cityNum = pickview.selectedRowInComponent(1)
+            let areaNum = pickview.selectedRowInComponent(2)
+            
+            
+            let pr: AnyObject? = root[provinceNum].objectForKey("state")
+            let cit:AnyObject? = cities[cityNum].objectForKey("city")
+            
+            
+            selectprovince = pr as! String
+            selectcity = cit as! String
+            
+            if areas != []{
+                selectcounty = areas[areaNum] as! String
             }
         }
-        //        let provinceNum = pickerView.selectedRowInComponent(0)
-        //        
-        //        let cityNum = pickerView.selectedRowInComponent(1)
-        //        
-        //        println("province:\(provinces.keys.array[provinceNum]);city:\(cities[cityNum])")
-        //        dizhi.text = "\(provinces.keys.array[provinceNum]) \(cities[cityNum])"
-        //       println("dizhi:\(dizhi.text)")
-        
-    }
+          }
+    
      func tapped(button:UIButton){
     
       if customerName.text == ""{
@@ -469,7 +539,7 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
             var request:NSMutableURLRequest = NSMutableURLRequest(URL: url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
             
             request.HTTPMethod = "POST"
-           var param:String = "{\"customerID\":\"\(Info.customerID)\",\"customerName\":\"\(customerName.text)\",\"customerGender\":\"\(customerGender.text)\",\"customerBirthday\":\"\(customerBirthday.text)\", \"phoneNo\":\"\(phoneNo.text)\",\"mobilePhone\":\"\(mobilePhone.text)\",\"emailAddress\":\"\(emailAddress.text)\",\"customerProvince\":\"辽宁省\",\"customerCity\":\"\(city)\",\"customerCounty\":\"\(county)\",\"contactAddress\":\"\(contactAddress.text)\",\"qqNumber\":\"\(qqNumber.text)\",\"idCardNo\":\"\",\"realLongitude\":\"\",\"realLatitude\":\"\",\"loginPassword\":\"\(Info.loginPassword)\",\"headPicture\":\"\"}"
+           var param:String = "{\"customerID\":\"\(Info.customerID)\",\"customerName\":\"\(customerName.text)\",\"customerGender\":\"\(customerGender.text)\",\"customerBirthday\":\"\(customerBirthday.text)\", \"phoneNo\":\"\(phoneNo.text)\",\"mobilePhone\":\"\(mobilePhone.text)\",\"emailAddress\":\"\(emailAddress.text)\",\"customerProvince\":\"\(selectprovince)\",\"customerCity\":\"\(selectcity)\",\"customerCounty\":\"\(selectcounty)\",\"contactAddress\":\"\(contactAddress.text)\",\"qqNumber\":\"\(qqNumber.text)\",\"idCardNo\":\"\",\"realLongitude\":\"\",\"realLatitude\":\"\",\"loginPassword\":\"\(Info.loginPassword)\",\"headPicture\":\"\"}"
              println(param)
             var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
             request.HTTPBody = data;

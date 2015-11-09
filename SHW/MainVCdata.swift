@@ -29,7 +29,54 @@ class ServiceType:NSObject {
     }
     
 }
-
+//查询父类(A)
+func refreshParentType(select:String) ->NSArray  {
+    let url: NSURL! = NSURL(string:HttpData.http+"/FamilyServiceSystem/MobileServiceTypeAction?operation=_query")
+    
+    let request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
+    
+    request.HTTPMethod = "POST"
+    
+    let param:String = "{\"typeName\":\"\(select)\"}"
+    //print("typeName\(select)")
+    let data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+    request.HTTPBody = data;
+    var response:NSURLResponse?
+    var error:NSError?
+    var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+    if (error != nil)
+    {
+        println(error?.code)
+        println(error?.description)
+    }
+    else
+    {
+        var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
+         println(jsonString)
+        
+    }
+    
+    let json:AnyObject! = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
+    
+    let test1: AnyObject?=json.objectForKey("serverResponse")
+    var ServiceTypeData:[String] = []
+    let serverResponse:String = test1 as! String
+    if serverResponse == "Success" {
+        let test2: AnyObject = json!.objectForKey("data")!
+        let jsonArray = test2 as? NSArray
+        //var count = jsonArray?.count
+        
+        for value in jsonArray!{
+            let typeName:String=value.objectForKey("typeName") as! String
+            ServiceTypeData += [typeName]
+            
+        }
+    }
+    // print("ServiceTypeData\(ServiceTypeData[0])")
+    return ServiceTypeData
+    
+    
+}
 //根据父类查询子类
 func refreshServiceType(select:String) ->NSArray  {
     var url: NSURL! = NSURL(string:HttpData.http+"/FamilyServiceSystem/MobileServiceTypeAction?operation=_query")

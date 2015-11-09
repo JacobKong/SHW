@@ -75,7 +75,9 @@ class BusinessVC:  UIViewController,UITableViewDataSource,UITableViewDelegate,JS
         
             //读取本地存储的地址
             readNSUerDefaults()
+        
             serviceTypeData = refreshServiceType(FirstType!) as![ServiceType]
+        
         
             for var i = 0;i < serviceTypeData.count;i++ {
             data2 += [serviceTypeData[i].typeName] // 小类名称
@@ -106,10 +108,11 @@ class BusinessVC:  UIViewController,UITableViewDataSource,UITableViewDelegate,JS
         //change by LZF
         //data1 = ["区域不限","和平区","大东区","沈河区","皇姑区","铁西区","浑南区","于洪区","沈北新区","苏家屯区","新民市","辽中县","康平县","法库县"]
         
-          println("location\(location)")
+       
+        
           data12 = queryCounty(location) as! [String]
           data1 += data12
-          println(data1)
+          println(data12)
         //data11 = ["","和平区","大东区","沈河区","皇姑区","铁西区","浑南区","于洪区","沈北新区","苏家屯区","新民市","辽中县","康平县","法库县"]
           data11 += data12
 //          data21 =  data2

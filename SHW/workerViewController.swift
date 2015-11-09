@@ -167,7 +167,7 @@ class workerViewController: UIViewController {
         //区域
        
         var quyu = UILabel(frame: CGRectMake(8, NameY+60, labelW, 20))
-        quyu.text = "所属区域:\(workerdetail.servantProvince)省\(workerdetail.servantCity)市\(workerdetail.servantCounty)"
+        quyu.text = "所属区域:\(workerdetail.servantProvince)\(workerdetail.servantCity)\(workerdetail.servantCounty)"
         quyu.textColor = UIColor.blackColor()
         quyu.font = UIFont.systemFontOfSize(14)
         scrollView.addSubview(quyu)

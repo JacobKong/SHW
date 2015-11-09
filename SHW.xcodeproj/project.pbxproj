@@ -10,6 +10,7 @@
 		1F15F1011B20244200BC9299 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F15F0FF1B20244200BC9299 /* Main.storyboard */; };
 		1F15F1061B2026FA00BC9299 /* BusinessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F15F1051B2026FA00BC9299 /* BusinessVC.swift */; };
 		1F15F1081B2027B300BC9299 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F15F1071B2027B300BC9299 /* BusinessCell.swift */; };
+		1F18FC611BF0D39200608B37 /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F18FC601BF0D39200608B37 /* area.plist */; };
 		1F380C3D1B68792E0076ABB7 /* BaseInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C3C1B68792E0076ABB7 /* BaseInfoVC.swift */; };
 		1F380C3F1B687D7C0076ABB7 /* MyInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C3E1B687D7C0076ABB7 /* MyInfoData.swift */; };
 		1F380C411B68E0480076ABB7 /* InfoListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C401B68E0480076ABB7 /* InfoListVC.swift */; };
@@ -154,6 +155,7 @@
 		1F15F1001B20244200BC9299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F15F1051B2026FA00BC9299 /* BusinessVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessVC.swift; sourceTree = "<group>"; };
 		1F15F1071B2027B300BC9299 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
+		1F18FC601BF0D39200608B37 /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
 		1F380C3C1B68792E0076ABB7 /* BaseInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseInfoVC.swift; sourceTree = "<group>"; };
 		1F380C3E1B687D7C0076ABB7 /* MyInfoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyInfoData.swift; sourceTree = "<group>"; };
 		1F380C401B68E0480076ABB7 /* InfoListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoListVC.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 		1F10BE0D1B65BB1F00F028CB /* New Group */ = {
 			isa = PBXGroup;
 			children = (
+				1F18FC601BF0D39200608B37 /* area.plist */,
 				1F10BE0E1B65BB2E00F028CB /* MyPlayground.playground */,
 			);
 			name = "New Group";
@@ -732,6 +735,7 @@
 				1FAE5FCC1BAF2BEA00C86F3A /* icon.png in Resources */,
 				1F44786F1B9E7F0B00ED8B8A /* check.png in Resources */,
 				1FAE60051BB2943B00C86F3A /* LaunchHD_retina.png in Resources */,
+				1F18FC611BF0D39200608B37 /* area.plist in Resources */,
 				1FAE5FE51BB19F2F00C86F3A /* mapapi.bundle in Resources */,
 				1FAE5FF71BB28EAD00C86F3A /* LaunchScreen.xib in Resources */,
 				1FAE5FED1BB286CA00C86F3A /* icon_120.png in Resources */,
@@ -945,7 +949,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "107898f2-bc46-45c2-b429-95765968c72d";
+				PROVISIONING_PROFILE = "5160b4b2-0f3e-42b0-967e-b3895fd46219";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/SHW/OCContainerHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -999,7 +1003,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "107898f2-bc46-45c2-b429-95765968c72d";
+				PROVISIONING_PROFILE = "5160b4b2-0f3e-42b0-967e-b3895fd46219";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/SHW/OCContainerHeader.h";
 				VALIDATE_PRODUCT = YES;
@@ -1079,7 +1083,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

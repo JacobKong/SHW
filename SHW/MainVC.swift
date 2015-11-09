@@ -22,6 +22,7 @@ class MainVC: UIViewController , UITableViewDelegate,
     var AdvertiseDatas:[HomeAdvertise]=[]
      var range:NSArray = []
     var location:String = "当前城市"
+   // var location:String = ""
  
      var customerid:String =  ""
     var loginPassword:String = ""
@@ -195,13 +196,19 @@ class MainVC: UIViewController , UITableViewDelegate,
         var button8C = UIColor(red: 204/255, green: 204/255, blue: 204/255, alpha: 1.0)
         var button9C = UIColor(red: 102/255, green: 204/255, blue: 255/255, alpha: 1.0)
         var color = [button1C,button2C,button3C,button4C,button5C,button6C,button7C,button8C,button9C]
-        var terms = HttpData.maintwo.count
+        let FirstTypeData = refreshParentType("")
+        println("FirstTypeData\(FirstTypeData)")
+        //var terms =  FirstTypeData.count
+         var terms =  HttpData.maintwo.count
+        
         var width = (self.view.bounds.width-20)/3
         var a = terms%3
         // mainatwo的button
+      
         for var i = 0;i < terms;i++ {
                 let term1 = UIButton(frame: CGRectMake(8+(width+2)*CGFloat(i%3),CGFloat(i/3)*((ButtonScrollheight-4)/3+2), width,(ButtonScrollheight-4)/3))
-                term1 .setTitle(HttpData.maintwo[i] as String, forState:UIControlState.Normal)
+                term1 .setTitle( HttpData.maintwo[i]  as? String, forState:UIControlState.Normal)
+            
                 term1.setTitleShadowColor(UIColor.whiteColor(),forState: UIControlState.Normal)
             term1.backgroundColor = color[i]
                 term1.titleLabel?.font = UIFont.systemFontOfSize(16)
@@ -279,7 +286,15 @@ class MainVC: UIViewController , UITableViewDelegate,
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
+    func ToLocation(){
+        println("怎么样了")
+        // self.performSegueWithIdentifier("toLocation", sender: self)
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewControllerWithIdentifier("LocationVC") as! UIViewController
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
     
+
  // tapped函数，跳转
     func tapped(term1:UIButton){
         titleOfState = term1.titleForState(.Normal)!
@@ -422,10 +437,12 @@ class MainVC: UIViewController , UITableViewDelegate,
             
         }
         
-        if  (userDefaultes.stringForKey("location")) != nil{
+        if  (userDefaultes.stringForKey("location")) != nil && (userDefaultes.stringForKey("location")) != "" {
          location = userDefaultes.stringForKey("location")!
       
         println(location)
+        }else{
+            ToLocation()
         }
         
     }
@@ -477,16 +494,19 @@ class MainVC: UIViewController , UITableViewDelegate,
     
     func onGetReverseGeoCodeResult(searcher: BMKGeoCodeSearch!, result: BMKReverseGeoCodeResult!, errorCode error: BMKSearchErrorCode) {
             println("进入编码状态2")
+        
          if error.value == 0 {
  
             var city = result.addressDetail.city
 //            println("city\(result.addressDetail.city)")
 //            var index = advance(city.endIndex, -1);
 //            let location = city.substringToIndex(index)
-             let location = "\(city)市"
+        
+            location = city
+            println("location\(location)")
             saveNSUerDefaults ()
             readNSUerDefaults()
-
+           
             LocationB.setTitle(location, forState: UIControlState.Normal)
 //            
 //                        let alert =  UIAlertView(title:location, message:city, delegate: self, cancelButtonTitle: "确定")
@@ -512,6 +532,9 @@ class MainVC: UIViewController , UITableViewDelegate,
     override func viewWillAppear(animated: Bool) {
         //读取用户信息，如果不是第一次登录，则会自动登录
         readNSUerDefaults()
+        if location == "当前城市"{
+            locationService.startUserLocationService()
+        }
          locationService.delegate = self
           geocodeSearch.delegate = self
         
@@ -519,7 +542,7 @@ class MainVC: UIViewController , UITableViewDelegate,
     override func viewWillDisappear(animated: Bool) {
         
     locationService.delegate = nil
-                println("定位结束")
+        
          geocodeSearch.delegate = nil
             }
  

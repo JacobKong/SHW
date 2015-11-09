@@ -13,6 +13,7 @@ static let  http  = "http://219.216.65.182:8080"
 //    static let  http  = "http://192.168.1.113:8080"
     static var  customerid:String = ""
     static var  loginpassword:String = ""
+       static var  salary = "0"
     static let  imgArray:[String] = ["1217.jpg","125.jpg","129.jpg","128.jpg"]
     static let titleArray:[String] = ["交付仪式","开幕式","启动仪式","宣传月活动"]
     static let label1term:[String] = ["月嫂","清洁","护理","看护","保姆"]

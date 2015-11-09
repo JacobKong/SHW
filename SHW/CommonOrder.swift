@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CommonOrder: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NSURLConnectionDataDelegate,UIScrollViewDelegate ,UIPickerViewDataSource,UIPickerViewDelegate {
+class CommonOrder: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NSURLConnectionDataDelegate,UIScrollViewDelegate ,BMKGeoCodeSearchDelegate,UIPickerViewDataSource,UIPickerViewDelegate {
 
     //声明导航条
     var navigationBar : UINavigationBar?
@@ -35,13 +35,22 @@ class CommonOrder: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NSUR
     var customerInfoY = CGFloat()
     var CBY = CGFloat()
     
-    var provinces = [String: [String]]()
-    var cities = [String]()
+  
     
       var pickview:UIPickerView!
     //选择的城市和地区
-    var city:String!
-    var county:String!
+    var  selectprovince:String!
+    var selectcity:String!
+    var  selectcounty:String!
+    
+    
+    var root:NSArray = []
+    var provinces:NSArray = []
+    var  dictionary1:NSDictionary!
+    var province:String = ""
+    var cities:NSArray = []
+    var areas:NSArray = []
+    
     var serviceCounty:UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,26 +145,35 @@ class CommonOrder: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NSUR
         quyu.font = UIFont.systemFontOfSize(15)
         scrollView.addSubview(quyu)
         
-        provinces = ["沈阳市":["和平区","大东区","沈河区","皇姑区","铁西区","浑南区","于洪区","沈北新区","苏家屯区","新民市","辽中县","康平县","法库县"]]
-        cities = provinces.values.array[0]
-        println("cities:\(cities)")
-        pickview = UIPickerView(frame: CGRectMake(0,300,width, 300))
-        
-        pickview.dataSource = self
-        
-        
+        pickview = UIPickerView(frame: CGRectMake(0,300, self.view.frame.width, 300))
         //添加ToolBar（可以不要）
         
         let f = pickview.frame
         let toolbar = UIToolbar(frame: CGRectMake(0, 0, f.width, (f.height * 0.15)))
         var buttons = [UIBarButtonItem]()
-        var space = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         buttons.append(space)
         let doneButton = UIBarButtonItem(title: "确定", style: UIBarButtonItemStyle.Plain, target: self, action: "donePressed")
         buttons.append(doneButton)
         toolbar.setItems(buttons, animated: false)
         
+        pickview = UIPickerView()
+        pickview.delegate = self
+        pickview.dataSource = self
+        let listPath  = NSBundle.mainBundle().pathForResource("area.plist", ofType: nil)
+        //第一层
         
+        root =  NSMutableArray(contentsOfFile:listPath!)!//root
+        
+        dictionary1 = root.objectAtIndex(0) as! NSDictionary//item0
+        //第二层
+        
+        cities = dictionary1.objectForKey("cities") as! NSArray
+        
+        let dictionary2:NSDictionary =  cities.objectAtIndex(0) as! NSDictionary
+        //第三层
+        
+        areas = dictionary2.objectForKey("areas") as! NSArray
         
         serviceCounty = UITextField(frame: CGRectMake(80, customerInfoY+35, width-90, 30))
         serviceCounty.borderStyle = UITextBorderStyle.RoundedRect
@@ -165,10 +183,12 @@ class CommonOrder: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NSUR
         //编辑时出现清除按钮
         
         serviceCounty.inputView = pickview
-         serviceCounty.text = "\(myinfo.customerCity)\(myinfo.customerCounty)"
+        selectprovince = myinfo.customerProvince
+        selectcity = myinfo.customerCity
+        selectcounty = myinfo.customerCounty
+        serviceCounty.text = "\(selectprovince)省 \(selectcity)市 \(selectcounty)"
         serviceCounty.inputAccessoryView = toolbar
         scrollView.addSubview(serviceCounty)
-        
         
         var address = UILabel(frame: CGRectMake(15, customerInfoY+35*2, 80, 25))
         address.text = "详细地址:"
@@ -259,76 +279,128 @@ class CommonOrder: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NSUR
         
         
         serviceCounty.resignFirstResponder()
-        let provinceNum = pickview.selectedRowInComponent(0)
-        
-        let cityNum = pickview.selectedRowInComponent(1)
-        
-        
-        serviceCounty.text = "\(provinces.keys.array[provinceNum]) \(cities[cityNum])"
-        
-        city = provinces.keys.array[provinceNum]
-        county = cities[cityNum]
-        
+        serviceCounty.text = "\(selectprovince)省 \(selectcity)市 \(selectcounty)"
     }
-    //设置列数
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 2
-    }
-    //设置行数
-    
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        if component == 0 {
-            //return month.count
-            return provinces.count
+        //设置列数
+        func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+            return 3
         }
-        if component == 1 {
-            //            return week.count
-            return cities.count
+        //设置行数
+        
+        func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
             
-        }
-        
-        return 0
-        
-        
-    }
-    
-    //设置每行具体内容（titleForRow 和 viewForRow 二者实现其一即可）
-    
-    func  pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        
-        if component == 0 {
-            //return month[row]
-            return provinces.keys.array[row]
-        }
-        
-        if component == 1{
-            //return week[row]
-            return cities[row]
+            if component == 0 {
+                
+                return root.count
+            }
+            
+            
+            if component == 1 {
+                
+                return cities.count
+                
+            }
+            
+            if component == 2 {
+                
+                return areas.count
+                
+            }
+            
+            return 0
+            
             
         }
         
-        return nil
-    }
-    
-    //选中行的操作
-    
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        //设置每行具体内容（titleForRow 和 viewForRow 二者实现其一即可）
         
+        func  pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            if component == 0 {
+                //return month[row]
+                //return provinces.keys.array[row]
+                return root[row].objectForKey("state") as? String
+            }
+            
+            if component == 1{
+                //return week[row]
+                return cities[row].objectForKey("city") as? String
+                
+            }
+            if component == 2{
+                //return week[row]
+                return areas[row] as? String
+                
+            }
+            return nil
+            
+        }
         
-        if(component == 0){
+        //选中行的操作
+        
+        func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
             
-            cities = provinces[provinces.keys.array[row]]!
             
-            // 重新加载二级选项并复位
             
-            pickerView.reloadComponent(1)
-            pickerView.selectRow(0, inComponent: 1, animated: true)
+            if(component == 0){
+                
+                dictionary1 = root.objectAtIndex(row) as! NSDictionary//item0
+                //第二层
+                
+                
+                cities = dictionary1.objectForKey("cities") as! NSArray
+                
+                // 重新加载二级选项并复位
+                
+                pickerView.reloadComponent(1)
+                pickerView.selectRow(0, inComponent: 1, animated: true)
+                
+                let dictionary2:NSDictionary =  cities.objectAtIndex(0) as! NSDictionary
+                
+                areas = dictionary2.objectForKey("areas") as! NSArray
+                
+                // 重新加载三级选项并复位
+                
+                pickerView.reloadComponent(2)
+                pickerView.selectRow(0, inComponent: 2, animated: true)
+                
+            }
+            
+            if(component == 1){
+                
+                let dictionary2:NSDictionary =  cities.objectAtIndex(row) as! NSDictionary
+                
+                areas = dictionary2.objectForKey("areas") as! NSArray
+                
+                // 重新加载三级选项并复位
+                
+                pickerView.reloadComponent(2)
+                pickerView.selectRow(0, inComponent: 2, animated: true)
+                
+                
+                
+                
+            }
+            let provinceNum = pickview.selectedRowInComponent(0)
+            let cityNum = pickview.selectedRowInComponent(1)
+            
+            let areaNum = pickview.selectedRowInComponent(2)
+            
+            let pr: AnyObject? = root[provinceNum].objectForKey("state")
+            let cit:AnyObject? = cities[cityNum].objectForKey("city")
+            
+            
+            selectprovince = pr as! String
+            selectcity = cit as! String
+            if areas != []{
+                selectcounty = areas[areaNum] as! String
+            }
             
         }
         
         
-    }
+        
+        
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
