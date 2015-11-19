@@ -155,6 +155,7 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         if serverResponse == "Success"{
             //self.performSegueWithIdentifier("LoginTo", sender: self)
             let alert =  UIAlertView(title: "修改成功", message: "", delegate: self, cancelButtonTitle: "确定")
+            alert.tag = 1
             alert.show()
             saveNSUerDefaults ()
             
@@ -167,6 +168,13 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         }
         
 
+    }
+    
+    
+    func  alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if (alertView.tag == 1) {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     //编辑结束时启动
     func textFieldDidEndEditing(Confirmpassword: UITextField) {
@@ -208,8 +216,8 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     func textDidChange(){
         NewP = Newpassword.text
         ConfirmP = Confirmpassword.text
-        if NewP.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) != 6{
-            label2.text = "请输入六位密码！"
+        if !verifyPassword(NewP){
+            label2.text = "请输入由6-20位数组、字母组成的密码！"
         }else if NewP == OriginalP{
             label2.text = "和原密码相同！"
         

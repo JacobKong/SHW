@@ -431,7 +431,7 @@ class OrderDetailVC: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NS
     func yuding(yuyue:UIButton){
         
         
-        if dizhi.text == "" || serviceCounty.text == "" || dianhua.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) != 11{
+        if dizhi.text == "" || serviceCounty.text == "" || !verifymobilePhone(dianhua.text) {
             let alert =  UIAlertView(title: "", message: "请填写正确的电话和地址!", delegate: self, cancelButtonTitle: "确定")
              // alert.tag = 1
             alert.show()
@@ -478,7 +478,7 @@ class OrderDetailVC: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NS
         if serverResponse == "Success"{
            
             let alert =  UIAlertView(title: "预定成功", message: "商家会尽快与您取得联系!", delegate: self, cancelButtonTitle: "确定")
-            alert.tag = 1
+               alert.tag = 1
                alert.show()
             
             

@@ -43,8 +43,8 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
     var Genderpick:UIPickerView!
     
     var indexPath:NSIndexPath!
-    var phoneNo = UITextField()//手机号码
-    var mobilePhone = UITextField()//座机号码
+    var phoneNo = UITextField()//座机号码
+    var mobilePhone = UITextField()//联系电话
     var emailAddress = UITextField()
     var qqNumber = UITextField()
     var dizhi = UITextField()
@@ -236,7 +236,7 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
         //座机电话
         phoneNo = UITextField(frame: CGRectMake((CGFloat(145), CGFloat(customY+4*37),CGFloat(pageWidth-150), CGFloat(34))))
         phoneNo.borderStyle = UITextBorderStyle.RoundedRect
-        phoneNo.text = Info.mobilePhone
+        phoneNo.text = Info.phoneNo
         phoneNo.adjustsFontSizeToFitWidth=true  //当文字超出文本框宽度时，自动调整文字大小
         phoneNo.minimumFontSize=14
         phoneNo.becomeFirstResponder()
@@ -249,7 +249,7 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
         //联系号码
         mobilePhone = UITextField(frame: CGRectMake((CGFloat(145), CGFloat(customY+5*37),CGFloat(pageWidth-150), CGFloat(34))))
         mobilePhone.borderStyle = UITextBorderStyle.RoundedRect
-        mobilePhone.text = Info.phoneNo
+        mobilePhone.text = Info.mobilePhone
         mobilePhone.adjustsFontSizeToFitWidth=true  //当文字超出文本框宽度时，自动调整文字大小
         mobilePhone.minimumFontSize=14
         mobilePhone.becomeFirstResponder()
@@ -506,17 +506,24 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
             alert.message = "请输入姓名"
             alert.addButtonWithTitle("确定")
             alert.show()
-        }else if  phoneNo.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) != 11{
+        }else if !verifyPhoneNo(phoneNo.text) && phoneNo.text != ""{
             let alert = UIAlertView()
             alert.title = ""
-            alert.message = "请输入正确电话号码"
+            alert.message = "请输入正确的座机号码"
             alert.addButtonWithTitle("确定")
             alert.show()
             
-      }else if  emailAddress.text == ""{
+      }else if !verifymobilePhone(mobilePhone.text) {
         let alert = UIAlertView()
         alert.title = ""
-        alert.message = "请输入邮箱地址"
+        alert.message = "请输入正确的联系电话"
+        alert.addButtonWithTitle("确定")
+        alert.show()
+        
+      }else if !verifyEmail(emailAddress.text){
+        let alert = UIAlertView()
+        alert.title = ""
+        alert.message = "请输入正确的邮箱地址"
         alert.addButtonWithTitle("确定")
         alert.show()
       }else if  dizhi.text == ""{

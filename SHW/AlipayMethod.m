@@ -12,11 +12,15 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "APAuthV2Info.h"
 
+@interface AlipayMethod()
+@property (nonatomic, assign) BOOL isSuccess;
+@end
+
 @implementation AlipayMethod
 
-+(void)pay:(PayInfo *)product
+//- (BOOL)pay:(PayInfo *)product completion:(void(^)(void))completion
++ (void)pay:(PayInfo *)product completion:(void(^)(void))completion;
 {
-#warning 需要修改
 //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
     NSString *appScheme=@"shenghuowang";
     NSString *callBackUrl=@"http://219.216.65.182:8080/FamilyServiceSystem/MobileAlipayAction";
@@ -62,6 +66,12 @@
       NSLog(@"orderString = %@",orderString);
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
             NSLog(@"result:%@",resultDic);
+            NSString *resultStatus = resultDic[@"resultStatus"];
+            if ([resultStatus isEqualToString:@"9000"]) {
+                completion();
+            }else{
+                NSLog(@"--------error");
+            }
         }];
     }
 }

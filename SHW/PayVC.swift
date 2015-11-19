@@ -7,10 +7,9 @@
 //
 
 import UIKit
- 
+
 
 class PayVC: UIViewController {
-    
     //声明导航条
     var navigationBar : UINavigationBar?
  
@@ -30,6 +29,8 @@ class PayVC: UIViewController {
     //var PayData:reserveInfo!
       var PayData:Finishinfo!
     var payinfo:PayInfo!
+    let alipay:AlipayMethod = AlipayMethod()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //读取用户信息，如果不是第一次登录，则会自动登录
@@ -49,22 +50,7 @@ class PayVC: UIViewController {
         println("创建导航条详情")
         onMakeNavitem()
         
-//        //添加scrollview
-//        var scrollView = UIScrollView()
-//        //scrollView.bounds = self.view.bounds
-//        scrollView.frame = CGRectMake(0, 64,width,height)
-//        scrollView.contentSize=CGSizeMake(width,height*5)
-//        //scrollView.contentInset = UIEdgeInsetsMake(-64,0,0, 0)
-//        //不可翻页
-//        scrollView.pagingEnabled = false
-//        //不显示横向滑竿
-//        scrollView.showsHorizontalScrollIndicator = false
-//        //不显示纵向滑竿
-//        scrollView.showsVerticalScrollIndicator = false
-//        //设置不可下拉
-//        scrollView.bounces = false
-//        scrollView.scrollsToTop = false
-//        self.view.addSubview(scrollView)
+ 
         
         //订单信息
         var orderY = CGFloat(70)
@@ -116,12 +102,7 @@ class PayVC: UIViewController {
         self.view.addSubview(yuyue!)
         yuyue!.addTarget(self , action:Selector("yuding:"), forControlEvents: UIControlEvents.TouchUpInside)
         
-//        
-//        scrollView.contentSize = CGSizeMake(width,64+CBY+30+253)
-//        println(scrollView.bounds.height)
-        
-        // Do any additional setup after loading the view.
-    }
+     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -141,10 +122,17 @@ class PayVC: UIViewController {
          payinfo.payBody = paycontent
          payinfo.payPrice = payprice
           println("Payinfo.payID\(payinfo.payID)")
-         AlipayMethod.pay(payinfo)
-//        let alert =  UIAlertView(title: "", message: "请刷新列表", delegate: self, cancelButtonTitle: "确定")
-//        alert.show()
-     }
+        
+        AlipayMethod.pay(self.payinfo!, completion: { () -> Void in
+
+            //self.navigationController?.popToRootViewControllerAnimated(true)
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            let vc = sb.instantiateViewControllerWithIdentifier("finish") as! UIViewController
+            self.presentViewController(vc, animated: false, completion: nil)
+
+                   });
+ 
+    }
     
     func  alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         let sb = UIStoryboard(name: "Main", bundle: nil)

@@ -14,20 +14,19 @@ class MainVC: UIViewController , UITableViewDelegate,
     UIScrollViewDelegate,UIAlertViewDelegate,NSURLConnectionDelegate,NSURLConnectionDataDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate{
     
     //用于定位服务管理类，它能够给我们提供位置信息和高度信息，也可以监控设备进入或离开某个区域，还可以获得设备的运行方向
-//    var locationManager : CLLocationManager = CLLocationManager()
-//    var currLocation : CLLocation!
+ 
     var imgLabel:UILabel!
     var urlSelected:String = ""
     var titleOfState:String = ""
     var AdvertiseDatas:[HomeAdvertise]=[]
      var range:NSArray = []
     var location:String = "当前城市"
-   // var location:String = ""
+ 
  
      var customerid:String =  ""
     var loginPassword:String = ""
     
-    //var scrollView:UIScrollView!
+ 
     //IB控件绑定
    
     @IBOutlet weak var scrollView: UIScrollView!
@@ -35,21 +34,17 @@ class MainVC: UIViewController , UITableViewDelegate,
     @IBOutlet weak var pageCtrl: UIPageControl!
  
     @IBOutlet weak var lead: UILabel!
-   
-   // @IBOutlet weak var LocationB: UIButton!
-     
-  
-    //@IBOutlet weak var tianqi: UIButton!
     @IBOutlet weak var shouye: UILabel!
-  //  @IBOutlet weak var lead: UIView!
+ 
     //详细界面属性
     var detailView:UIView!
     var webView:UIWebView!
     var LocationB = UIButton()
     var _data:NSData?
     var imageUrlString:NSString?
-//   var imgView = UIButton()
+ 
     var img:UIImage?
+    var termImg:UIImage?
     /// 定位服务
     var locationService: BMKLocationService!
     /// 当前用户位置
@@ -57,10 +52,9 @@ class MainVC: UIViewController , UITableViewDelegate,
     /// 地理位置编码
     var geocodeSearch: BMKGeoCodeSearch!
     //初始化
-    
+    var  FirstTypeData:[ServiceType] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         // 定位功能初始化
          locationService = BMKLocationService()
@@ -76,8 +70,8 @@ class MainVC: UIViewController , UITableViewDelegate,
     
 
         AdvertiseDatas = refreshAdvertise() as! [HomeAdvertise]
-        println("AdvertiseDatas\(AdvertiseDatas)")
-         println("进入定位状态")
+        FirstTypeData  = refreshParentType("") as! [ServiceType]
+     
         
  
         //读取用户信息，如果不是第一次登录，则会自动登录
@@ -176,7 +170,15 @@ class MainVC: UIViewController , UITableViewDelegate,
         println( "end viewDidLoad" )
         
              //创建buttonScroll
-            ButtonScroll.contentSize = CGSize(width: self.view.bounds.width, height:self.view.bounds.height )
+        //创建buttonScroll
+        let terms =  FirstTypeData.count
+        let a = terms%3
+        if a == 0 {
+            ButtonScroll.contentSize = CGSizeMake(self.view.bounds.width, CGFloat(terms/3)*((ButtonScrollheight-4)/3+2))}
+        else{
+            ButtonScroll.contentSize = CGSizeMake(self.view.bounds.width, CGFloat(terms/3+1)*((ButtonScrollheight-4)/3+2))
+        }
+ 
             ButtonScroll.pagingEnabled = false
             ButtonScroll.delegate = self
             ButtonScroll.showsHorizontalScrollIndicator = false
@@ -196,25 +198,37 @@ class MainVC: UIViewController , UITableViewDelegate,
         var button8C = UIColor(red: 204/255, green: 204/255, blue: 204/255, alpha: 1.0)
         var button9C = UIColor(red: 102/255, green: 204/255, blue: 255/255, alpha: 1.0)
         var color = [button1C,button2C,button3C,button4C,button5C,button6C,button7C,button8C,button9C]
-        let FirstTypeData = refreshParentType("")
-        println("FirstTypeData\(FirstTypeData)")
-        //var terms =  FirstTypeData.count
-         var terms =  HttpData.maintwo.count
+     
         
         var width = (self.view.bounds.width-20)/3
-        var a = terms%3
-        // mainatwo的button
       
-        for var i = 0;i < terms;i++ {
-                let term1 = UIButton(frame: CGRectMake(8+(width+2)*CGFloat(i%3),CGFloat(i/3)*((ButtonScrollheight-4)/3+2), width,(ButtonScrollheight-4)/3))
-                term1 .setTitle( HttpData.maintwo[i]  as? String, forState:UIControlState.Normal)
+        // mainatwo的button
+         var i:Int = 0 ;
+        for i = 0;i < terms;i++ {
+            let term1 = UIButton(frame: CGRectMake(8+(width+2)*CGFloat(i%3),CGFloat(i/3)*((ButtonScrollheight-4)/3+2), width,(ButtonScrollheight-4)/3))
+            print(term1.frame.origin.x)
+            print(term1.frame.origin.y)
+            //term1 .setTitle(FirstTypeData[i].typeName as String, forState:UIControlState.Normal)
+            term1.titleColorForState(UIControlState.Normal)
+            term1.tag = i
+            //term1.setTitleShadowColor(UIColor.whiteColor(),forState: UIControlState.Normal)
+            let buttonImageUS = HttpData.http+"/NationalService/\(FirstTypeData[i].typeLogo)"
+            println("buttonImageUS\(buttonImageUS)")
+            let url:NSString = buttonImageUS.URLEncodedString()
+            let data = getImageData(url as String)
+            if data == nil{
+                termImg = UIImage(named: HttpData.imgArray[i%3])
+                
+            }else{
+                termImg = UIImage(data: data!)
+            }
             
-                term1.setTitleShadowColor(UIColor.whiteColor(),forState: UIControlState.Normal)
-            term1.backgroundColor = color[i]
-                term1.titleLabel?.font = UIFont.systemFontOfSize(16)
-                term1.showsTouchWhenHighlighted = true
-                term1.addTarget(self , action: Selector("tapped:"), forControlEvents: UIControlEvents.TouchUpInside)
-                ButtonScroll.addSubview(term1)
+            term1.setBackgroundImage(termImg, forState: UIControlState.Normal)
+            term1.backgroundColor = color[i%9]
+            term1.titleLabel?.font = UIFont.systemFontOfSize(16)
+            term1.showsTouchWhenHighlighted = true
+            term1.addTarget(self , action: Selector("tapped:"), forControlEvents: UIControlEvents.TouchUpInside)
+            ButtonScroll.addSubview(term1)
         }
  
         if a == 0 {
@@ -241,17 +255,7 @@ class MainVC: UIViewController , UITableViewDelegate,
             term1.addTarget(self , action: Selector("tapped:"), forControlEvents: UIControlEvents.TouchUpInside)
             self.view.addSubview(term1)
         }
-        
-        
-//        // 定位功能初始化
-//        locationService = BMKLocationService()
-//        println("进入定位状态1111")
-//        locationService.startUserLocationService()
-//        // 地理编码器初始化
-//        geocodeSearch = BMKGeoCodeSearch()
-//        println("进入定位状态")
-
-        
+     
     }
     
     
@@ -271,12 +275,7 @@ class MainVC: UIViewController , UITableViewDelegate,
         scrollView.frame = CGRectMake(0, leadheight+2, bounds.width, bounds.height*0.27)
         pageCtrl.frame = CGRectMake(bounds.width*0.25, pageCtrly, bounds.width*0.5, CGFloat(pageCtrlheight) )
         ButtonScroll.frame = CGRectMake(0, ButtonScrolly, bounds.width, bounds.height*0.53)
-         //        Location(<#sender: AnyObject#>).frame = CGRectMake(10,leadheight-30 , 40, 23)
-       //tianqi.frame = CGRectMake(50, leadheight-50 , 30, 30)
-       // LocationB.frame = CGRectMake(30, leadheight-25, 40, 23)
-
-
-   
+ 
     }
     func toLocation(Location:UIButton){
         println("怎么样了")
@@ -297,7 +296,8 @@ class MainVC: UIViewController , UITableViewDelegate,
 
  // tapped函数，跳转
     func tapped(term1:UIButton){
-        titleOfState = term1.titleForState(.Normal)!
+       // titleOfState = term1.titleForState(.Normal)!
+        titleOfState = FirstTypeData[term1.tag].typeName
         //读取用户信息，如果不是第一次登录，则会自动登录
         readNSUerDefaults()
         println("标题\(titleOfState)")
@@ -349,7 +349,9 @@ class MainVC: UIViewController , UITableViewDelegate,
 //        
 //
           }else {
-            titleOfState = term1.titleForState(.Normal)!
+            titleOfState = FirstTypeData[term1.tag].typeName
+            //titleOfState = term1.titleForState(.Normal)!
+            
             var  serviceTypeData = refreshServiceType(titleOfState) as![ServiceType]
             println("我点击的是:\(titleOfState)")
             if serviceTypeData != [] {

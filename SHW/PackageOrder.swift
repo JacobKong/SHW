@@ -419,7 +419,7 @@ class PackageOrder: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NSU
     func yuding(yuyue:UIButton){
        
         
-        if dizhi.text == "" || serviceCounty.text == "" || dianhua.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) != 11{
+        if dizhi.text == "" || serviceCounty.text == "" || !verifymobilePhone(dianhua.text){
             let alert =  UIAlertView(title: "", message: "请填写正确的电话和地址!", delegate: self, cancelButtonTitle: "确定")
              //alert.tag = 1
             alert.show()

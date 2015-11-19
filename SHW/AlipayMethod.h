@@ -11,6 +11,6 @@
 #import <UIKit/UIKit.h>
 @interface AlipayMethod : NSObject
 
-+(void)pay:(PayInfo *)product;
-
+//- (BOOL)pay:(PayInfo *)product completion:(void(^)(void))completion;
++ (void)pay:(PayInfo *)product completion:(void(^)(void))completion;
 @end
