@@ -375,11 +375,7 @@ class BusinessDVC: UIViewController,UIAlertViewDelegate,UIScrollViewDelegate,NSU
         if customerid == "" ||  loginPassword == "" {
             
             
-//            let alert =  UIAlertView(title: "", message: "登录后才能收藏哦!", delegate: self, cancelButtonTitle: "确定")
-//            alert.show()
-//            let alert = UIAlertView(title: "登录", message: "", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "登录","还没账号吗?去注册")
-//               alert.alertViewStyle = UIAlertViewStyle.LoginAndPasswordInput
-//               alert.show()
+ 
             
             
             let sb = UIStoryboard(name: "Main", bundle: nil)

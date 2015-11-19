@@ -208,10 +208,8 @@ class MainVC: UIViewController , UITableViewDelegate,
             let term1 = UIButton(frame: CGRectMake(8+(width+2)*CGFloat(i%3),CGFloat(i/3)*((ButtonScrollheight-4)/3+2), width,(ButtonScrollheight-4)/3))
             print(term1.frame.origin.x)
             print(term1.frame.origin.y)
-            //term1 .setTitle(FirstTypeData[i].typeName as String, forState:UIControlState.Normal)
             term1.titleColorForState(UIControlState.Normal)
             term1.tag = i
-            //term1.setTitleShadowColor(UIColor.whiteColor(),forState: UIControlState.Normal)
             let buttonImageUS = HttpData.http+"/NationalService/\(FirstTypeData[i].typeLogo)"
             println("buttonImageUS\(buttonImageUS)")
             let url:NSString = buttonImageUS.URLEncodedString()
@@ -252,7 +250,7 @@ class MainVC: UIViewController , UITableViewDelegate,
             //term1.setBackgroundImage(UIImage(named:buttonimage[i]), forState:UIControlState.Normal)
             term1.titleLabel?.font = UIFont.systemFontOfSize(14)
             term1.showsTouchWhenHighlighted = true
-            term1.addTarget(self , action: Selector("tapped:"), forControlEvents: UIControlEvents.TouchUpInside)
+            term1.addTarget(self , action: Selector("tapped2:"), forControlEvents: UIControlEvents.TouchUpInside)
             self.view.addSubview(term1)
         }
      
@@ -296,59 +294,7 @@ class MainVC: UIViewController , UITableViewDelegate,
 
  // tapped函数，跳转
     func tapped(term1:UIButton){
-       // titleOfState = term1.titleForState(.Normal)!
-        titleOfState = FirstTypeData[term1.tag].typeName
-        //读取用户信息，如果不是第一次登录，则会自动登录
-        readNSUerDefaults()
-        println("标题\(titleOfState)")
-//        if titleOfState == "我的收藏" || titleOfState == "我的订单"|| titleOfState == "我的预定"||  titleOfState == "我的信息"
-//        {   if  customerid == "" || loginPassword == ""{
-//            self.performSegueWithIdentifier("toLogin", sender: self)
-//            
-//          }else{
-          if titleOfState == "我的收藏" {
-            if  customerid == "" || loginPassword == ""{
-                self.performSegueWithIdentifier("toLogin", sender: self)
-            }else {
-
-            self.performSegueWithIdentifier("toCollection", sender: self)
-            }
-          }else if titleOfState == "我的订单"{
-            if  customerid == "" || loginPassword == ""{
-                self.performSegueWithIdentifier("toLogin", sender: self)
-            }else {
-                
-                self.performSegueWithIdentifier("tofinish", sender: self)
-
-            }
-
-//         }else if titleOfState == "我的预定"{
-//            if  customerid == "" || loginPassword == ""{
-//                self.performSegueWithIdentifier("toLogin", sender: self)
-//            }else {
-//                
-//               self.performSegueWithIdentifier("toorder", sender: self)
-//                
-//            }
-//            
-          }else if titleOfState == "我的信息"{
-            
-           if  customerid == "" || loginPassword == ""{                
-           self.performSegueWithIdentifier("toLogin", sender: self)
-            
-            
-           }else {
-            
-                self.performSegueWithIdentifier("toMyInfo", sender: self)
-            }
-//          }else if titleOfState == "更多"{
-//                
-//                let alert =  UIAlertView(title: "", message: "尚未开放，敬请期待!", delegate: self, cancelButtonTitle: "确定")
-//                alert.show()
-//                
-//        
-//
-          }else {
+ 
             titleOfState = FirstTypeData[term1.tag].typeName
             //titleOfState = term1.titleForState(.Normal)!
             
@@ -362,8 +308,50 @@ class MainVC: UIViewController , UITableViewDelegate,
 
             }
         }
+ 
+    func tapped2(term1:UIButton){
+        titleOfState  = term1.titleForState(.Normal)!
+        
+        //读取用户信息，如果不是第一次登录，则会自动登录
+        readNSUerDefaults()
+        if titleOfState == "我的收藏" {
+            if  customerid == "" || loginPassword == ""{
+                self.performSegueWithIdentifier("toLogin", sender: self)
+            }else {
+                
+                self.performSegueWithIdentifier("toCollection", sender: self)
+            }
+        }else if titleOfState == "我的订单"{
+            if  customerid == "" || loginPassword == ""{
+                self.performSegueWithIdentifier("toLogin", sender: self)
+            }else {
+                
+                self.performSegueWithIdentifier("tofinish", sender: self)
+                
+            }
+        }else if titleOfState == "我的发布"{
+            if  customerid == "" || loginPassword == ""{
+                self.performSegueWithIdentifier("toLogin", sender: self)
+            }else {
+                
+                self.performSegueWithIdentifier("toorder", sender: self)
+                
+            }
+            
+        }else if titleOfState == "我的信息"{
+            
+            if  customerid == "" || loginPassword == ""{
+                self.performSegueWithIdentifier("toLogin", sender: self)
+                
+                
+            }else {
+                
+                self.performSegueWithIdentifier("toMyInfo", sender: self)
+            }
+        }
+        
     }
-    
+
  
      //6.定时器函数
     func timerFireMethod(timer: NSTimer) {
