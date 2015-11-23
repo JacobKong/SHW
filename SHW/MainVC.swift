@@ -133,7 +133,7 @@ class MainVC: UIViewController , UITableViewDelegate,
                 img = UIImage(named: HttpData.imgArray[i])
            
             }else{
-                 img = UIImage(data: data!)
+                img = UIImage(data: data!)
             }
            imgView.setBackgroundImage(img, forState: UIControlState.Normal)
 
@@ -208,7 +208,7 @@ class MainVC: UIViewController , UITableViewDelegate,
             term1.titleColorForState(UIControlState.Normal)
             term1.tag = i
             let buttonImageUS = HttpData.http+"/FamilyServiceSystem/\(FirstTypeData[i].typeLogo)"
-            println("buttonImageUS\(buttonImageUS)")
+           
             let url:NSString = buttonImageUS.URLEncodedString()
             let data = getImageData(url as String)
             if data == nil{
@@ -219,8 +219,8 @@ class MainVC: UIViewController , UITableViewDelegate,
             }
             
             term1.setBackgroundImage(termImg, forState: UIControlState.Normal)
-            term1.backgroundColor = color[i%9]
-            term1.titleLabel?.font = UIFont.systemFontOfSize(16)
+            //term1.backgroundColor = color[i%9]
+            //term1.titleLabel?.font = UIFont.systemFontOfSize(16)
             term1.showsTouchWhenHighlighted = true
             term1.addTarget(self , action: Selector("tapped:"), forControlEvents: UIControlEvents.TouchUpInside)
             ButtonScroll.addSubview(term1)
