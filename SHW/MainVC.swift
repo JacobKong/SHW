@@ -184,7 +184,6 @@ class MainVC: UIViewController , UITableViewDelegate,
             ButtonScroll.showsHorizontalScrollIndicator = false
             ButtonScroll.showsVerticalScrollIndicator = false
             ButtonScroll.bounces = false
-            //ButtonScroll.contentInset = UIEdgeInsetsMake(0, 0, -, 0)
             self.automaticallyAdjustsScrollViewInsets = false
         
         //创建button
@@ -203,14 +202,12 @@ class MainVC: UIViewController , UITableViewDelegate,
         var width = (self.view.bounds.width-20)/3
       
         // mainatwo的button
-         var i:Int = 0 ;
+        var i:Int = 0 ;
         for i = 0;i < terms;i++ {
             let term1 = UIButton(frame: CGRectMake(8+(width+2)*CGFloat(i%3),CGFloat(i/3)*((ButtonScrollheight-4)/3+2), width,(ButtonScrollheight-4)/3))
-            print(term1.frame.origin.x)
-            print(term1.frame.origin.y)
             term1.titleColorForState(UIControlState.Normal)
             term1.tag = i
-            let buttonImageUS = HttpData.http+"/NationalService/\(FirstTypeData[i].typeLogo)"
+            let buttonImageUS = HttpData.http+"/FamilyServiceSystem/\(FirstTypeData[i].typeLogo)"
             println("buttonImageUS\(buttonImageUS)")
             let url:NSString = buttonImageUS.URLEncodedString()
             let data = getImageData(url as String)
