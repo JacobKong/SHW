@@ -64,12 +64,12 @@ class PackageVC: UIViewController,UITableViewDataSource,UITableViewDelegate,JSDr
         println(FirstType)
         var width = self.view.frame.width
         
-        
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情B")
-        onMakeNavitem()
+//        
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情B")
+//        onMakeNavitem()
         
         Table.dataSource = self
         Table.delegate = self
@@ -167,11 +167,11 @@ class PackageVC: UIViewController,UITableViewDataSource,UITableViewDelegate,JSDr
 //        }
         cell.picture.setZYHWebImage(imageUrlString, defaultImage: "1211.jpg")
 
-            cell.officePhone.text = business.serviceType
-            cell.businessArea.text = "\(business.priceDescription)元" //价格
-            cell.dizhi.text = "所属店铺:"
-            cell.dianhua.text = "服务类别:"
-            cell.quyu.text = "价格:"
+//            cell.officePhone.text = business.serviceType
+//            cell.businessArea.text = "\(business.priceDescription)元" //价格
+//            cell.dizhi.text = "所属店铺:"
+//            cell.dianhua.text = "服务类别:"
+//            cell.quyu.text = "价格:"
     
         return cell
     }

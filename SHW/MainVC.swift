@@ -13,7 +13,7 @@ import UIKit
 class MainVC: UIViewController , UITableViewDelegate,
     UIScrollViewDelegate,UIAlertViewDelegate,NSURLConnectionDelegate,NSURLConnectionDataDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate{
     
-    //用于定位服务管理类，它能够给我们提供位置信息和高度信息，也可以监控设备进入或离开某个区域，还可以获得设备的运行方向
+    
  
     var imgLabel:UILabel!
     var urlSelected:String = ""
@@ -26,17 +26,12 @@ class MainVC: UIViewController , UITableViewDelegate,
      var customerid:String =  ""
     var loginPassword:String = ""
     
+     //详细界面属性
+    var scrollView = UIScrollView()
+    var ButtonScroll: UIScrollView!
+    var pageCtrl: UIPageControl!
+  
  
-    //IB控件绑定
-   
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var ButtonScroll: UIScrollView!
-    @IBOutlet weak var pageCtrl: UIPageControl!
- 
-    @IBOutlet weak var lead: UILabel!
-    @IBOutlet weak var shouye: UILabel!
- 
-    //详细界面属性
     var detailView:UIView!
     var webView:UIWebView!
     var LocationB = UIButton()
@@ -53,21 +48,25 @@ class MainVC: UIViewController , UITableViewDelegate,
     var geocodeSearch: BMKGeoCodeSearch!
     //初始化
     var  FirstTypeData:[ServiceType] = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 定位功能初始化
-         locationService = BMKLocationService()
-        // 设置定位精确度，默认：kCLLocationAccuracyBest
-        BMKLocationService.setLocationDesiredAccuracy(kCLLocationAccuracyBest)
-         println("进入定位状态")
-        //指定最小距离更新(米)，默认：kCLDistanceFilterNone
-        BMKLocationService.setLocationDistanceFilter(10)
-        println("进入定位状态1111")
-        locationService.startUserLocationService()
-        // 地理编码器初始化
-        geocodeSearch = BMKGeoCodeSearch()
-    
+//        // 定位功能初始化
+//         locationService = BMKLocationService()
+//        // 设置定位精确度，默认：kCLLocationAccuracyBest
+//        BMKLocationService.setLocationDesiredAccuracy(kCLLocationAccuracyBest)
+//         println("进入定位状态")
+//        //指定最小距离更新(米)，默认：kCLDistanceFilterNone
+//        BMKLocationService.setLocationDistanceFilter(10)
+//        println("进入定位状态1111")
+//        locationService.startUserLocationService()
+//        // 地理编码器初始化
+//        geocodeSearch = BMKGeoCodeSearch()
+        
+        
+            // GetLocation()
 
         AdvertiseDatas = refreshAdvertise() as! [HomeAdvertise]
         FirstTypeData  = refreshParentType("") as! [ServiceType]
@@ -77,36 +76,58 @@ class MainVC: UIViewController , UITableViewDelegate,
         //读取用户信息，如果不是第一次登录，则会自动登录
           readNSUerDefaults()
       
-        //var bounds:CGRect = self.view.bounds
-        var leadheight = self.view.bounds.height*0.11
-        var scrollviewheight = self.view.bounds.height*0.27
-        var pageCtrly = leadheight + scrollviewheight-self.view.bounds.height*0.03
+        //获取屏幕大小
+        var screenBounds:CGRect = UIScreen.mainScreen().bounds
+        println(screenBounds) //iPhone6输出：（0.0,0.0,375.0,667.0
+        //获取屏幕大小（不包括状态栏高度）
+        var viewBounds:CGRect = UIScreen.mainScreen().applicationFrame
+        println(viewBounds) //iPhone6输出：（0.0,20.0,375.0,647.0）
+        
+        
+        
+//        let  leadheight = self.view.frame.height*0.11
+//        
+//        var scrollviewheight = self.view.bounds.height*0.27
+//        var pageCtrly = leadheight + scrollviewheight-self.view.bounds.height*0.03
+//        var pageCtrlheight = 37
+//        var ButtonScrolly = pageCtrly + CGFloat(pageCtrlheight)-5
+//        var ButtonScrollheight = self.view.bounds.height*0.53
+//        var lastheight = self.view.bounds.height*0.09
+        
+        
+        let  leadheight = viewBounds.height*0.11
+        
+        var scrollviewheight = viewBounds.height*0.27
+        var pageCtrly = leadheight + scrollviewheight-viewBounds.height*0.03
         var pageCtrlheight = 37
         var ButtonScrolly = pageCtrly + CGFloat(pageCtrlheight)-5
-        var ButtonScrollheight = self.view.bounds.height*0.53
-        var lastheight = self.view.bounds.height*0.09
-    
+        var ButtonScrollheight = viewBounds.height*0.53
+        var lastheight = viewBounds.height*0.09
         
-        var tianqi = UIButton(frame: CGRect(x: 50, y: leadheight-35, width: 30, height:30))
-        self.view.addSubview(tianqi)
+//        var tianqi = UIButton(frame: CGRect(x: 50, y: leadheight-35, width: 30, height:30))
+//        self.navigationController!.view.addSubview(tianqi)
        
         //self.scrollView = UIScrollView(frame: CGRectMake(0, leadheight, bounds.width, bounds.height*0.245))
         //1.设置图片UIScrollView
-       // scrollView.contentSize =  CGSize(width: bounds.width * CGFloat(range.count), height: bounds.height*0.27)
-        scrollView.contentSize =  CGSize(width: self.view.bounds.width * CGFloat(AdvertiseDatas.count), height: self.view.bounds.height*0.27)
+       
+        // scrollView.contentSize =  CGSize(width: bounds.width * CGFloat(range.count), height: bounds.height*0.27)
+        scrollView = UIScrollView(frame: CGRectMake(0, leadheight+2, viewBounds.width, viewBounds.height*0.27))
+        
+        scrollView.contentSize =  CGSize(width: viewBounds.width * CGFloat(AdvertiseDatas.count), height: viewBounds.height*0.27)
         scrollView.pagingEnabled = true  //设true时，会按页滑动
         scrollView.bounces = false  //取消UIScrollView的弹性属性，这个可以按个人喜好来定
         scrollView.delegate = self //UIScrollView的delegate函数在本类中定义
         scrollView.showsHorizontalScrollIndicator = false//因为我们使用UIPageControl表示页面进度，所以取消UIScrollView自己的进度条。
-        println(location)
         
-       // LocationB.titleLabel?.text = location
-        LocationB = UIButton(frame: CGRect(x: 20, y: leadheight-30, width: 100, height:23))
-        LocationB.titleLabel?.font = UIFont.systemFontOfSize(15)
-        LocationB.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        LocationB.setTitle(location, forState: UIControlState.Normal)
-        LocationB.addTarget(self, action: "toLocation:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.view.addSubview(LocationB)
+       
+        
+//        LocationB = UIButton(frame: CGRect(x: 20, y: leadheight-30, width: 100, height:23))
+//        LocationB.titleLabel?.font = UIFont.systemFontOfSize(15)
+//        LocationB.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+//        LocationB.setTitle(location, forState: UIControlState.Normal)
+//        LocationB.addTarget(self, action: "toLocation:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        //self.navigationController!.view.addSubview(LocationB)
         
         
         
@@ -116,7 +137,7 @@ class MainVC: UIViewController , UITableViewDelegate,
         for var i = 0; i < AdvertiseDatas.count; i++ {
             println("数目：\(AdvertiseDatas.count)")
         
-            var imgView:UIButton = UIButton(frame: CGRect(x: self.view.bounds.width*CGFloat(i), y:0, width: self.view.bounds.width, height: self.view.bounds.width*0.45) )
+            var imgView:UIButton = UIButton(frame: CGRect(x: viewBounds.width*CGFloat(i), y:0, width: viewBounds.width, height: viewBounds.width*0.45) )
 
             //网络地址获取图片
 //            //1.定义一个地址字符串常量
@@ -173,11 +194,11 @@ class MainVC: UIViewController , UITableViewDelegate,
         //创建buttonScroll
         let terms =  FirstTypeData.count
         let a = terms%3
-        if a == 0 {
-            ButtonScroll.contentSize = CGSizeMake(self.view.bounds.width, CGFloat(terms/3)*((ButtonScrollheight-4)/3+2))}
-        else{
-            ButtonScroll.contentSize = CGSizeMake(self.view.bounds.width, CGFloat(terms/3+1)*((ButtonScrollheight-4)/3+2))
-        }
+//        if a == 0 {
+//            ButtonScroll.contentSize = CGSizeMake(viewBounds.width, CGFloat(terms/3)*((ButtonScrollheight-4)/3+2))}
+//        else{
+//            ButtonScroll.contentSize = CGSizeMake(viewBounds.width, CGFloat(terms/3+1)*((ButtonScrollheight-4)/3+2))
+//        }
  
             ButtonScroll.pagingEnabled = false
             ButtonScroll.delegate = self
@@ -204,11 +225,14 @@ class MainVC: UIViewController , UITableViewDelegate,
         // mainatwo的button
         var i:Int = 0 ;
         for i = 0;i < terms;i++ {
-            let term1 = UIButton(frame: CGRectMake(8+(width+2)*CGFloat(i%3),CGFloat(i/3)*((ButtonScrollheight-4)/3+2), width,(ButtonScrollheight-4)/3))
+            
+          let term1 = UIButton(frame: CGRectMake(8+(width+2)*CGFloat(i%3),CGFloat(i/3)*((ButtonScrollheight-4)/3+2), width,width-20))
+            //let term1 = UIButton(frame: CGRectMake(8+(width+2)*CGFloat(i%3),CGFloat(i/3)*((ButtonScrollheight-4)/3+2), width,(ButtonScrollheight-4)/3))
             term1.titleColorForState(UIControlState.Normal)
             term1.tag = i
             let buttonImageUS = HttpData.http+"/FamilyServiceSystem/\(FirstTypeData[i].typeLogo)"
-           
+        
+            
             let url:NSString = buttonImageUS.URLEncodedString()
             let data = getImageData(url as String)
             if data == nil{
@@ -226,62 +250,74 @@ class MainVC: UIViewController , UITableViewDelegate,
             ButtonScroll.addSubview(term1)
         }
  
-        if a == 0 {
-            ButtonScroll.contentSize = CGSizeMake(self.view.bounds.width, CGFloat(terms/3)*((ButtonScrollheight-4)/3+2))}
-        else{
-            ButtonScroll.contentSize = CGSizeMake(self.view.bounds.width, CGFloat(terms/3+1)*((ButtonScrollheight-4)/3+2))
-        }
+//        if a == 0 {
+//            ButtonScroll.contentSize = CGSizeMake(viewBounds.width, CGFloat(terms/3)*((ButtonScrollheight-4)/3+2))}
+//        else{
+//            ButtonScroll.contentSize = CGSizeMake(viewBounds.width, CGFloat(terms/3+1)*((ButtonScrollheight-4)/3+2))
+//        }
         
-        var buttontitle = ["我的订单","我的收藏","我的信息"]
-        var buttonimage = ["mydingdan.png","collect.png","centeryuding.png","mydingdan.png","myinfo.png"]
-        var buttonheight = self.view.bounds.height - ButtonScrolly - ButtonScrollheight
-        var buttony = ButtonScrolly + ButtonScrollheight
-        for var i = 0;i < 3;i++ {
-            let term1 = UIButton(frame: CGRectMake(3+((self.view.bounds.width-14)/3+2)*CGFloat(i%3),buttony+2,(self.view.bounds.width-14)/3,buttonheight-4))
-            term1 .setTitle(buttontitle[i] as String, forState:UIControlState.Normal)
-            term1.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-            //term1.setTitleShadowColor(UIColor.whiteColor(),forState: UIControlState.Normal)
-            var color = UIColor  (red: 255/255, green: 127/255, blue: 27/255, alpha: 1.0)
-            term1.backgroundColor = color
-            term1.layer.cornerRadius = 5.0
-            //term1.setBackgroundImage(UIImage(named:buttonimage[i]), forState:UIControlState.Normal)
-            term1.titleLabel?.font = UIFont.systemFontOfSize(14)
-            term1.showsTouchWhenHighlighted = true
-            term1.addTarget(self , action: Selector("tapped2:"), forControlEvents: UIControlEvents.TouchUpInside)
-            self.view.addSubview(term1)
-        }
+//        var buttontitle = ["我的订单","我的收藏","我的信息"]
+//        var buttonimage = ["mydingdan.png","collect.png","centeryuding.png","mydingdan.png","myinfo.png"]
+//         var Buttonimage = ["tab1_default.png","tab2_default.png","tab3_default.png","tab4_default.png"]
+//         var ButtonPressimage = ["tab1_press.png","tab2_press.png","tab3_press.png","tab4_press.png"]
+//        var buttonheight = viewBounds.height - ButtonScrolly - ButtonScrollheight
+//        var buttony = ButtonScrolly + ButtonScrollheight
+//        for var i = 0;i < 4;i++ {
+//            let term1 = UIButton(frame: CGRectMake(3+((viewBounds.width-30)/4+2)*CGFloat(i%4),buttony+2,(viewBounds.width-30)/4,buttonheight))
+//            //term1 .setTitle(buttontitle[i] as String, forState:UIControlState.Normal)
+//            //term1.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+//            //term1.setTitleShadowColor(UIColor.whiteColor(),forState: UIControlState.Normal)
+//            var color = UIColor  (red: 255/255, green: 127/255, blue: 27/255, alpha: 1.0)
+//            term1.tag = i
+//            term1.layer.cornerRadius = 5.0
+//            term1.setBackgroundImage(UIImage(named:Buttonimage[i]), forState:UIControlState.Normal)
+//            term1.setBackgroundImage(UIImage(named:ButtonPressimage[i]), forState:UIControlState.Selected)
+//            term1.titleLabel?.font = UIFont.systemFontOfSize(14)
+//            term1.showsTouchWhenHighlighted = true
+//            term1.addTarget(self , action: Selector("tapped2:"), forControlEvents: UIControlEvents.TouchUpInside)
+//            self.navigationController!.view.addSubview(term1)
+//        }
      
     }
-    
-    
-    override func  viewDidLayoutSubviews() {
-        var bounds:CGRect = self.view.frame
-        var leadheight = bounds.height*0.11
-        var scrollviewheight = bounds.height*0.27
-        var pageCtrly = leadheight + scrollviewheight-bounds.height*0.03
-        var pageCtrlheight = 37
-        var ButtonScrolly = pageCtrly + CGFloat(pageCtrlheight)-5
-        var ButtonScrollheight = bounds.height*0.53
-        var lastheight = bounds.height*0.09
-        println(leadheight)
+    func  GetLocation() {
+        // 定位功能初始化
+        locationService = BMKLocationService()
+        // 设置定位精确度，默认：kCLLocationAccuracyBest
+        BMKLocationService.setLocationDesiredAccuracy(kCLLocationAccuracyBest)
+         //指定最小距离更新(米)，默认：kCLDistanceFilterNone
+        BMKLocationService.setLocationDistanceFilter(10)
+         locationService.startUserLocationService()
+        // 地理编码器初始化
+        geocodeSearch = BMKGeoCodeSearch()
         
-        lead.frame = CGRect(x: 0, y: 0, width: bounds.width, height: leadheight)
-        shouye.frame = CGRectMake(bounds.width/2-20, leadheight-30, 40, 23)
-        scrollView.frame = CGRectMake(0, leadheight+2, bounds.width, bounds.height*0.27)
-        pageCtrl.frame = CGRectMake(bounds.width*0.25, pageCtrly, bounds.width*0.5, CGFloat(pageCtrlheight) )
-        ButtonScroll.frame = CGRectMake(0, ButtonScrolly, bounds.width, bounds.height*0.53)
- 
+
     }
+    
+//    override func  viewDidLayoutSubviews() {
+//        var bounds:CGRect = self.view.frame
+//        var leadheight = bounds.height*0.11
+//        var scrollviewheight = bounds.height*0.27
+//        var pageCtrly = leadheight + scrollviewheight-bounds.height*0.03
+//        var pageCtrlheight = 37
+//        var ButtonScrolly = pageCtrly + CGFloat(pageCtrlheight)-5
+//        var ButtonScrollheight = bounds.height*0.53
+//        var lastheight = bounds.height*0.09
+//        println(leadheight)
+//        
+//        scrollView.frame = CGRectMake(0, leadheight+2, bounds.width, bounds.height*0.27)
+//        pageCtrl.frame = CGRectMake(bounds.width*0.25, pageCtrly, bounds.width*0.5, CGFloat(pageCtrlheight) )
+//        ButtonScroll.frame = CGRectMake(0, ButtonScrolly, bounds.width, bounds.height*0.53)
+// 
+//    }
     func toLocation(Location:UIButton){
-        println("怎么样了")
-        // self.performSegueWithIdentifier("toLocation", sender: self)
+         // self.performSegueWithIdentifier("toLocation", sender: self)
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewControllerWithIdentifier("LocationVC") as! UIViewController
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
     func ToLocation(){
-        println("怎么样了")
+       
         // self.performSegueWithIdentifier("toLocation", sender: self)
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewControllerWithIdentifier("LocationVC") as! UIViewController
@@ -296,7 +332,6 @@ class MainVC: UIViewController , UITableViewDelegate,
             //titleOfState = term1.titleForState(.Normal)!
             
             var  serviceTypeData = refreshServiceType(titleOfState) as![ServiceType]
-            println("我点击的是:\(titleOfState)")
             if serviceTypeData != [] {
             self.performSegueWithIdentifier("toItem", sender: self)
             }else {
@@ -307,18 +342,21 @@ class MainVC: UIViewController , UITableViewDelegate,
         }
  
     func tapped2(term1:UIButton){
-        titleOfState  = term1.titleForState(.Normal)!
+//        titleOfState  = term1.titleForState(.Normal)!
+        var buttontitle = ["找服务","收藏","订单","我的"]
+
+        titleOfState = buttontitle[term1.tag]
         
         //读取用户信息，如果不是第一次登录，则会自动登录
         readNSUerDefaults()
-        if titleOfState == "我的收藏" {
+        if titleOfState == "收藏" {
             if  customerid == "" || loginPassword == ""{
                 self.performSegueWithIdentifier("toLogin", sender: self)
             }else {
                 
                 self.performSegueWithIdentifier("toCollection", sender: self)
             }
-        }else if titleOfState == "我的订单"{
+        }else if titleOfState == "订单"{
             if  customerid == "" || loginPassword == ""{
                 self.performSegueWithIdentifier("toLogin", sender: self)
             }else {
@@ -326,16 +364,14 @@ class MainVC: UIViewController , UITableViewDelegate,
                 self.performSegueWithIdentifier("tofinish", sender: self)
                 
             }
-        }else if titleOfState == "我的发布"{
-            if  customerid == "" || loginPassword == ""{
-                self.performSegueWithIdentifier("toLogin", sender: self)
-            }else {
+        }else if titleOfState == "找服务"{
+        
+           
+               // self.performSegueWithIdentifier("toorder", sender: self)
                 
-                self.performSegueWithIdentifier("toorder", sender: self)
-                
-            }
             
-        }else if titleOfState == "我的信息"{
+            
+        }else if titleOfState == "我的"{
             
             if  customerid == "" || loginPassword == ""{
                 self.performSegueWithIdentifier("toLogin", sender: self)
@@ -400,16 +436,13 @@ class MainVC: UIViewController , UITableViewDelegate,
        
             var object = titleOfState
             controller.FirstType = object
-            println(controller.FirstType)
-            println("fffffff")
-            
+             
         } else if segue.identifier! == "AdvertTo" {
             
             let controller = segue.destinationViewController as! BusinessDVC
             var object = urlSelected
             controller.facilitatorid = object
-        
-            println("fffffff")
+         
             
         }
 

@@ -25,22 +25,15 @@ class RefundDetailVC: UIViewController {
         width = self.view.frame.width
         height = self.view.frame.height
         
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
-        
          refundData = RefundOrderDetail(Data.orderNo)
         
         
-        var h = CGFloat(70)
+        var h = CGFloat(5)
         var orderNo = UILabel(frame: CGRectMake(8, h, width, 20))
         orderNo.text = "订单编号:\(refundData.orderNo)"
         orderNo.textColor = UIColor.blackColor()
         orderNo.font = UIFont.systemFontOfSize(15)
-        //orderNo.backgroundColor = UIColor.redColor()
-        self.view.addSubview(orderNo)
+         self.view.addSubview(orderNo)
         
         
         var orderStatus = UILabel(frame: CGRectMake(8, h+25, width, 20))
@@ -56,8 +49,6 @@ class RefundDetailVC: UIViewController {
         customerID.textColor = UIColor.blackColor()
         customerID.font = UIFont.systemFontOfSize(15)
         self.view.addSubview(customerID)
-        
- 
         
         var customerName = UILabel(frame: CGRectMake(8, h+75, width, 20))
         customerName.text = "退款金额:\(refundData.money)元"
@@ -90,8 +81,6 @@ class RefundDetailVC: UIViewController {
         ReasonField.scrollEnabled = true
         //自适应高度
         ReasonField.autoresizingMask = UIViewAutoresizing.FlexibleHeight
-        //使文本框在界面打开时就获取焦点，并弹出输入键盘
-        //        ReasonField.becomeFirstResponder()
         //使文本框失去焦点，并收回键盘
         ReasonField.resignFirstResponder()
         //键盘形式
@@ -102,43 +91,13 @@ class RefundDetailVC: UIViewController {
         
     }
     
-    //导航条详情
-    func reply (){
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func onMakeNavitem() -> UINavigationItem{
-        println("创建导航条step1")
-        //创建一个导航项
-        var navigationItem = UINavigationItem()
-        //创建左边按钮
-        var leftButton =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Reply, target: self, action: "reply")
-        //var leftButton =  UIBarButtonItem(title: "返回", style: UIBarButtonItemStyle.Bordered, target: self, action: "reply")
-        //导航栏的标题
-        navigationItem.title = "退款详情"
-        //设置导航栏左边按钮
-        navigationItem.setLeftBarButtonItem(leftButton, animated: true)
-        navigationBar?.pushNavigationItem(navigationItem, animated: true)
-        
-        
-        return navigationItem
-    }
+ 
     
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

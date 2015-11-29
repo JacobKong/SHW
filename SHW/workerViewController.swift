@@ -67,11 +67,11 @@ class workerViewController: UIViewController {
         scrollView.scrollsToTop = false
         self.view.addSubview(scrollView)
         
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情servant")
-        onMakeNavitem()
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情servant")
+//        onMakeNavitem()
         //人员头像
         var introimgY = CGFloat(20)
         var introImg = UIImageView(frame: CGRectMake((width-180)/2, introimgY,180, 180))

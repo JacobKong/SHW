@@ -26,8 +26,6 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
     var image = ["yonghuming","yonghuming","nianling","IDCard","dianhua","dianhua","youjian","youjian","dizhi","dizhi"]
     
     //var scrollView = UIScrollView()
-    //声明导航条
-    var navigationBar : UINavigationBar?
     
     var terms:Int?
     //存储用户的输入
@@ -76,13 +74,8 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
         readNSUerDefaults()
         //查询用户信息
         Info = QueryInfo(customerid) as MyInfo
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
         
-        //        // ScrollView详情
+        // ScrollView详情
         scrollView.frame = CGRectMake(0, 64, pageWidth, pageHeight)
         scrollView.contentSize=CGSizeMake(pageWidth, pageHeight*3)
         scrollView.contentInset = UIEdgeInsetsMake(0,0,-49, 0)
@@ -604,29 +597,7 @@ class BaseInfoVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelega
  
     
  
-    //导航条详情
-    func reply (){
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func onMakeNavitem() -> UINavigationItem{
-        println("创建导航条step1")
-        //创建一个导航项
-        var navigationItem = UINavigationItem()
-        //创建左边按钮
-        var leftButton =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Reply, target: self, action: "reply")
-        //var leftButton =  UIBarButtonItem(title: "返回", style: UIBarButtonItemStyle.Bordered, target: self, action: "reply")
-        //导航栏的标题
-        navigationItem.title = "基本资料"
-        //设置导航栏左边按钮
-        navigationItem.setLeftBarButtonItem(leftButton, animated: true)
-        
-        navigationBar?.pushNavigationItem(navigationItem, animated: true)
-        
-        
-        return navigationItem
-    }
-    
+         
     //从NSUerDefaults 中读取数据
     func readNSUerDefaults () {
         

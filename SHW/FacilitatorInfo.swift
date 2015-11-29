@@ -68,50 +68,43 @@ class facilitatorInfo:NSObject {
 }
 
 //1.1. 查询提供某一服务的所有商家
-func refreshFacilitator(secondType:String,attributeName:String,upDown:String,facilitatorCounty:String) ->NSArray  {
+ func refreshFacilitator(secondType:String,attributeName:String,upDown:String,facilitatorCounty:String,pageNo:Int) ->NSArray  {
     var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileFacilitatorInfoAction?operation=_byServiceType")
-    
-    println("更新商家信息")
     
     var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
     
     request.HTTPMethod = "POST"
-    //var param:String = "{\"customerAccount\":\"Alex\",\"Password\":\"a123\"}"
-    var param:String = "{\"type\":\"\(secondType)\",\"attributeName\":\"\(attributeName)\",\"upDown\":\"\(upDown)\",\"facilitatorCounty\":\"\(facilitatorCounty)\"}"
-    var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+     var param:String = "{\"type\":\"\(secondType)\",\"attributeName\":\"\(attributeName)\",\"upDown\":\"\(upDown)\",\"facilitatorCounty\":\"\(facilitatorCounty)\",\"pageNo\":\"\(pageNo)\",\"fiterCondition\":\"\"}"
+    
+     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
     var response:NSURLResponse?
     var error:NSError?
     var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-        println(error?.code)
-        println(error?.description)
+ 
     }
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-        println(jsonString)
-        
-    }
+     }
     
     let json:AnyObject! = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
-    //var finishinfo = finishinfo()
-    //var FinishData:[finishinfo] = []
+    
     var test1: AnyObject?=json.objectForKey("serverResponse")
     var serverResponse:String = test1 as! String 
     
     var FacilitatorData:[facilitatorInfo] = []
     if  serverResponse == "Success" {
     var test2: AnyObject?=json.objectForKey("data")
-    println(test2)
-    let jsonArray = test2 as? NSArray
+     let jsonArray = test2 as? NSArray
     var count = jsonArray?.count
    
     for value in jsonArray!{
         var id:Int=value.objectForKey("id") as! Int
         var facilitatorName:String=value.objectForKey("facilitatorName") as! String
-        //var companyName:String=value.objectForKey("companyName") as! String
+       
         var facilitatorID:String=value.objectForKey("facilitatorID") as! String
         var officePhone:String=value.objectForKey("officePhone") as! String
         
@@ -140,31 +133,27 @@ func refreshFacilitator(secondType:String,attributeName:String,upDown:String,fac
         var serviceType:String = value.objectForKey("serviceTypeArray") as! String
         let obj:facilitatorInfo = facilitatorInfo(id:id,facilitatorName:facilitatorName,facilitatorID:facilitatorID,officePhone:officePhone,qqNumber:qqNumber,contactPhone:contactPhone,facilitatorProvince:facilitatorProvince,facilitatorCity:facilitatorCity,facilitatorCounty:facilitatorCounty,emailAddress:emailAddress,contactAddress:contactAddress,registerTime: registerTime,facilitatorLevel:facilitatorLevel,creditScore:creditScore,
             facilitatorIntro: facilitatorIntro,facilitatorLogo:facilitatorLogo,facilitatorStatus:facilitatorStatus,serviceCount: serviceCount)
-        //println(obj.facilitatorID+" "+obj.facilitatorName);
-        //        var FinishiData:[Finishinfo] = []
+        
         FacilitatorData += [obj]
-        // obj.confirmTime = a;
-        //        var b: AnyObject?=value.objectForKey("customerEvaluate")
-        //        finishinfo.customerEvaluate = b
-        //        var c: AnyObject?=value.objectForKey("customerName")
-        //        finishinfo.customerName = c
+ 
         
        }
     }
     return FacilitatorData
     
 }
-//1.2. 查询提供某一服务的所有人员
-func refreshServant(secondType:String,attributeName:String,upDown:String,facilitatorCounty:String) ->NSArray  {
-    
+ //1.2商家页数
+ func GetFPage(secondType:String,attributeName:String,upDown:String,facilitatorCounty:String,pageNo:Int) ->Int  {
     var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileFacilitatorInfoAction?operation=_byServiceType")
-    
-    println("更新人员信息")
+    //var url: NSURL! = NSURL(string:"http://192.168.1.105:8080/FamilyServiceSystem/MobileFacilitatorInfoAction?operation=_byServiceType")
+
     
     var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
     
     request.HTTPMethod = "POST"
-    var param:String = "{\"type\":\"\(secondType)\",\"attributeName\":\"\(attributeName)\",\"upDown\":\"\(upDown)\",\"facilitatorCounty\":\"\(facilitatorCounty)\"}"
+    //var param:String = "{\"customerAccount\":\"Alex\",\"Password\":\"a123\"}"
+     var param:String = "{\"type\":\"\(secondType)\",\"attributeName\":\"\(attributeName)\",\"upDown\":\"\(upDown)\",\"facilitatorCounty\":\"\(facilitatorCounty)\",\"pageNo\":\"\(pageNo)\",\"fiterCondition\":\"\"}"
+    
     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
     var response:NSURLResponse?
@@ -172,13 +161,52 @@ func refreshServant(secondType:String,attributeName:String,upDown:String,facilit
     var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-        println(error?.code)
-        println(error?.description)
+        
     }
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-        println(jsonString)
+        println("jsonString\(jsonString)")
+
+        
+    }
+    
+    let json:AnyObject! = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
+    
+    var test1: AnyObject?=json.objectForKey("serverResponse")
+    var serverResponse:String = test1 as! String
+    var Page:Int?
+    if  serverResponse == "Success" {
+    var pagesize: AnyObject?=json.objectForKey("pageSize")
+         Page = pagesize as? Int
+            }
+    return Page!
+    
+ }
+
+//1.2. 查询提供某一服务的所有人员
+ func refreshServant(secondType:String,attributeName:String,upDown:String,facilitatorCounty:String,pageNo:Int) ->NSArray  {
+    
+    var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileFacilitatorInfoAction?operation=_byServiceType")
+    //var url: NSURL! = NSURL(string:"http://192.168.1.105:8080/FamilyServiceSystem/MobileFacilitatorInfoAction?operation=_byServiceType")
+  
+    
+    var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
+    
+    request.HTTPMethod = "POST"
+    var param:String = "{\"type\":\"\(secondType)\",\"attributeName\":\"\(attributeName)\",\"upDown\":\"\(upDown)\",\"facilitatorCounty\":\"\(facilitatorCounty)\",\"pageNo\":\"\(pageNo)\",\"fiterCondition\":\"\"}"
+    println("param\(param)")
+    var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+    request.HTTPBody = data;
+    var response:NSURLResponse?
+    var error:NSError?
+    var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+    if (error != nil)
+    {
+     }
+    else
+    {
+        var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
         
     }
     
@@ -257,6 +285,43 @@ func refreshServant(secondType:String,attributeName:String,upDown:String,facilit
     return ServantData
     
 }
+ 
+ //1.2人员页数
+ func GetSPage(secondType:String,attributeName:String,upDown:String,facilitatorCounty:String,pageNo:Int) ->Int  {
+    var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileFacilitatorInfoAction?operation=_byServiceType")
+    var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
+    
+    request.HTTPMethod = "POST"
+    var param:String = "{\"type\":\"\(secondType)\",\"attributeName\":\"\(attributeName)\",\"upDown\":\"\(upDown)\",\"facilitatorCounty\":\"\(facilitatorCounty)\",\"pageNo\":\"\(pageNo)\",\"fiterCondition\":\"\"}"
+     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+    request.HTTPBody = data;
+    var response:NSURLResponse?
+    var error:NSError?
+    var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+    if (error != nil)
+    {
+        
+    }
+    else
+    {
+        var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
+        println("jsonString\(jsonString)")
+    }
+    
+    let json:AnyObject! = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
+    
+    var test1: AnyObject?=json.objectForKey("serverResponse")
+    var serverResponse:String = test1 as! String
+    var Page:Int?
+    if  serverResponse == "Success" {
+        var pagesize: AnyObject?=json.objectForKey("pageSize")
+        Page = pagesize as? Int
+        println("pageSSS\(Page)")
+        
+    }
+    return Page!
+    
+ }
 //商家详情
  func refreshFDetail (facilitatorID:String)->facilitatorInfo{
     var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileFacilitatorInfoAction?operation=_detailQuery")
@@ -267,7 +332,7 @@ func refreshServant(secondType:String,attributeName:String,upDown:String,facilit
     request.HTTPMethod = "POST"
     //var param:String = "{\"customerAccount\":\"Alex\",\"Password\":\"a123\"}"
     var param:String = "{\"facilitatorID\":\"\(facilitatorID)\"}"
-    println("param:\(param)")
+ 
     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
     var response:NSURLResponse?
@@ -275,13 +340,10 @@ func refreshServant(secondType:String,attributeName:String,upDown:String,facilit
     var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-        println(error?.code)
-        println(error?.description)
-    }
+             }
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-//        println(jsonString)
         
     }
     
@@ -336,12 +398,11 @@ func refreshServant(secondType:String,attributeName:String,upDown:String,facilit
  //是否被收藏
  func GetCollect (facilitatorID:String,customerID:String)->String{
     var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileFacilitatorInfoAction?operation=_detailQuery")
-    println("是否被收藏")
     
     var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
     
     request.HTTPMethod = "POST"
-    //var param:String = "{\"customerAccount\":\"Alex\",\"Password\":\"a123\"}"
+     
     var param:String = "{\"facilitatorID\":\"\(facilitatorID)\",\"customerID\":\"\(customerID)\"}"
     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
@@ -350,20 +411,16 @@ func refreshServant(secondType:String,attributeName:String,upDown:String,facilit
     var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-        println(error?.code)
-        println(error?.description)
-    }
+     }
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-//        println(jsonString)
         
     }
     
     let json:AnyObject! = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
     var collect: AnyObject?=json.objectForKey("isCollected")
-//    println(collect)
-    var isCollected :String = collect as! String
+     var isCollected :String = collect as! String
     
     return isCollected
   }
@@ -382,21 +439,17 @@ func addCollection(n:String) ->String  {
     request.HTTPMethod = "POST"
     //要改参数类型
     var param:String = "{\"typeName\":\"\(n)\"}"
-    //println("typeName\(select)")
-    var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
     var response:NSURLResponse?
     var error:NSError?
     var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-        println(error?.code)
-        println(error?.description)
-    }
+     }
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-        println(jsonString)
         
     }
     
@@ -476,7 +529,7 @@ func addCollection(n:String) ->String  {
     request.HTTPMethod = "POST"
     //要改参数类型
     var param:String = "{\"cityName\":\"\(cityName)\"}"
-    println("cityName:\(cityName)") 
+   
     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
     var response:NSURLResponse?
@@ -484,13 +537,10 @@ func addCollection(n:String) ->String  {
     var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-        println(error?.code)
-        println(error?.description)
-    }
+     }
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-       println(jsonString)
         
     }
     
@@ -510,22 +560,8 @@ func addCollection(n:String) ->String  {
         
         
     for value in jsonArray!{
+        var countyName:String=value.objectForKey("countyName") as! String
         
-//          var id:Int=value.objectForKey("id") as! Int
-//          println("id")
-//        
-//          println("zenemhuishi")
-//        var cityCode:String=basic!.objectForKey("cityCode") as! String
-//        println("cityCode\(cityCode)")
-//        var cityName:String=basic!.objectForKey("cityName") as! String
-//        println("cityName\(cityName)")
-       var countyName:String=value.objectForKey("countyName") as! String
-//        var isCovered:String=basic!.objectForKey("isCovered") as! String
-//        println("countyName:\(countyName)")
-//        
-//        let obj:CountyInfo = CountyInfo(id:id,cityCode:cityCode,cityName:cityName,countyName:countyName,isCovered:isCovered)
-//        detailData = obj
-          
    
             countyData += [countyName]
             
@@ -535,4 +571,32 @@ func addCollection(n:String) ->String  {
     return countyData
     
         
+ }
+ 
+ func test(){
+    
+    var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileServiceTypeAction?operation=_queryByName")
+    
+    var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
+    
+    request.HTTPMethod = "POST"
+    var param:String = "{\"typeName\":\"月嫂\"}"
+     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+    request.HTTPBody = data;
+    var response:NSURLResponse?
+    var error:NSError?
+    var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+    if (error != nil)
+    {
+    }
+    else
+    {
+        var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
+        println(jsonString)
+    }
+    
+    let json:AnyObject! = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
+    var test1: AnyObject?=json.objectForKey("serverResponse")
+    var serverResponse:String = test1 as! String
+    
  }

@@ -33,11 +33,11 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情")
+//        onMakeNavitem()
         // Do any additional setup after loading the view.
         var Register = ["原密码:","新密码:","确认密码:"]
         var image = [ "mima","mima","mima"]

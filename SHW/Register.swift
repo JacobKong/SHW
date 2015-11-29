@@ -40,11 +40,11 @@ class Register: UIViewController,UITextFieldDelegate,UIAlertViewDelegate  {
         super.viewDidLoad()
         var pageWidth = self.view.frame.width
         var pageHeight = self.view.frame.height
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情")
+//        onMakeNavitem()
         
         var terms = Register.count as Int
         for var i = 0;i < terms;i++ {

@@ -48,12 +48,12 @@ class PackageItemVC: UIViewController {
         var height = self.view.frame.height
         var labelW = self.view.frame.width - 20
         
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情Package")
-        onMakeNavitem()
-        println("创建导航条详情Package结束")
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情Package")
+//        onMakeNavitem()
+//        println("创建导航条详情Package结束")
         //添加scrollview
         var scrollView = UIScrollView()
         //scrollView.bounds = self.view.bounds

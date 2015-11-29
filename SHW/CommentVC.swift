@@ -24,11 +24,11 @@ class CommentVC: UIViewController,UITableViewDataSource,UITableViewDelegate,UIAl
     override func viewDidLoad() {
         super.viewDidLoad()
         var width = self.view.frame.width
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情Comment")
-        onMakeNavitem()
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情Comment")
+//        onMakeNavitem()
         
        serverResponse = getResponse(servantID) as String
         println(serverResponse)

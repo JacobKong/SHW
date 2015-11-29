@@ -12,16 +12,15 @@ class BusinessCell: UITableViewCell {
 
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var address: UILabel!
-//    @IBOutlet weak var picture = UIImageView
     @IBOutlet weak var picture: UIImageView!
     @IBOutlet weak var officePhone: UILabel!
-    @IBOutlet weak var businessArea: UILabel!
+  
     
     @IBOutlet weak var dizhi: UILabel!
     
     @IBOutlet weak var dianhua: UILabel!
     
-    @IBOutlet weak var quyu: UILabel!
+  
      
     
     override func awakeFromNib() {

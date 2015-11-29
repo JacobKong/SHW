@@ -39,7 +39,7 @@ class ServantInfo:NSObject {
     var serviceItems:String
     var facilitatorName:String
     var facilitatorID:String
-//    var  serviceType :String
+//   var  servantSalary :String
     
     init( id:Int,servantID:String
         ,servantName:String,phoneNo :String,servantMobil:String,educationLevel:String,trainingIntro:String,servantProvince:String,servantCity:String,servantCounty:String,servantGender:String,headPicture:String,workYears: Float,servantHonors:String ,servantIntro:String ,isStayHome: Bool,holidayInMonth:Int,servantScore:String,servantStatus: String,serviceCount:Int,careerType:String,  serviceItems:String,facilitatorName:String,facilitatorID:String ){

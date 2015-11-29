@@ -35,11 +35,11 @@ class LoginVC: UIViewController,UITextFieldDelegate,NSURLConnectionDataDelegate 
        //loginPassword.placeholder = "hudaskjfslervhb"
         //读取用户信息，如果不是第一次登录，则会自动登录
         readNSUerDefaults()
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情")
+//        onMakeNavitem()
         
         loginPassword.delegate  = self
         customerID.delegate = self

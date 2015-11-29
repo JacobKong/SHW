@@ -36,20 +36,13 @@ class AlterRefund: UIViewController,UIAlertViewDelegate,UITextViewDelegate,UIScr
         
          refundData = RefundOrderDetail(Data.orderNo)
         
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
         
         //1、创建手势实例，并连接方法UITapGestureRecognizer,点击手势
         var recognizer =  UITapGestureRecognizer(target:self, action:"touchScrollView:")
-        println("touchScrollView")
         
         //设置手势点击数,点1下
         recognizer.numberOfTapsRequired = 1
         
-        //recognizer.numberOfTouchesRequired = 1
         
         scrollView.addGestureRecognizer(recognizer)
         NSNotificationCenter.defaultCenter().addObserver(self,selector:Selector("keyboardWillShow:"),name:UIKeyboardWillShowNotification,object:nil)
@@ -58,11 +51,9 @@ class AlterRefund: UIViewController,UIAlertViewDelegate,UITextViewDelegate,UIScr
         
         //添加scrollview
         scrollView.delegate = self
-        //        var scrollView = UIScrollView()
-        //scrollView.bounds = self.view.bounds
-        scrollView.frame = CGRectMake(0, 64,width,height)
+        scrollView.frame = CGRectMake(0, 0,width,height)
         scrollView.contentSize=CGSizeMake(width,height*5)
-        //scrollView.contentInset = UIEdgeInsetsMake(-64,0,0, 0)
+ 
         //不可翻页
         scrollView.pagingEnabled = false
         //不显示横向滑竿
@@ -145,9 +136,7 @@ class AlterRefund: UIViewController,UIAlertViewDelegate,UITextViewDelegate,UIScr
         ReasonField.scrollEnabled = true
         //自适应高度
         ReasonField.autoresizingMask = UIViewAutoresizing.FlexibleHeight
-        //使文本框在界面打开时就获取焦点，并弹出输入键盘
-        //        ReasonField.becomeFirstResponder()
-        //使文本框失去焦点，并收回键盘
+         //使文本框失去焦点，并收回键盘
         ReasonField.resignFirstResponder()
         //键盘形式
         ReasonField.keyboardType = UIKeyboardType.Twitter
@@ -163,7 +152,7 @@ class AlterRefund: UIViewController,UIAlertViewDelegate,UITextViewDelegate,UIScr
         tijiao.addTarget(self , action: Selector("tapped9:"), forControlEvents: UIControlEvents.TouchUpInside)
         scrollView.addSubview(tijiao)
         
-        scrollView.contentSize = CGSizeMake(width,Y+360+253)
+        scrollView.contentSize = CGSizeMake(width,Y+295+190)
         
         
         
@@ -273,11 +262,11 @@ class AlterRefund: UIViewController,UIAlertViewDelegate,UITextViewDelegate,UIScr
         //        self.view.endEditing(true)
     }
     func keyboardWillShow(sender:NSNotification){
-        scrollView.contentSize = CGSizeMake(width,Y+360+253)
+        scrollView.contentSize = CGSizeMake(width,Y+295+253)
         
     }
     func keyboardWillHide(sender:NSNotification){
-        scrollView.contentSize = CGSizeMake(width,Y+360)
+        scrollView.contentSize = CGSizeMake(width,Y+295)
         
     }
     

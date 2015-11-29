@@ -47,18 +47,17 @@ class CommonItemVC: UIViewController {
          println("CommonItem.serviceTyp")
         println("\(CommonItem.serviceType)")
 
-        serviceTypeData = getServiceType(CommonItem.serviceType) as ServiceType
+        //serviceTypeData = getServiceType(CommonItem.serviceType) as ServiceType
         
-         println("\(CommonItem.serviceType)")
         var width = self.view.frame.width
         var height = self.view.frame.height
         var labelW = self.view.frame.width - 20
         
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情commontitemVC")
-        onMakeNavitem()
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情commontitemVC")
+//        onMakeNavitem()
 
         //添加scrollview
         var scrollView = UIScrollView()

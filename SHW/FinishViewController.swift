@@ -25,20 +25,14 @@ class FinishViewController: UIViewController {
         var width = self.view.frame.width-16
          println("宽度:\(width)")
         
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
         
             detailItem = getOrderData(detailData.id)
         
-            //var scrollView = UIScrollView()
             scrollView.bounds = self.view.bounds
-            scrollView.frame = CGRectMake(0, 64, self.view.frame.width, self.view.frame.height)
+            scrollView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
             
             scrollView.contentSize=CGSizeMake(self.view.frame.width,self.view.frame.height*5)
-//            scrollView.contentInset = UIEdgeInsetsMake(-64,0,0, 0)
+ 
             scrollView.pagingEnabled = false
             scrollView.showsHorizontalScrollIndicator = false
             scrollView.showsVerticalScrollIndicator = false
@@ -47,13 +41,11 @@ class FinishViewController: UIViewController {
             scrollView.scrollsToTop = false
             //self.view.addSubview(scrollView)
             //Label设置
-            println("wwwwwwwwwwww")
-            var  detail : Finishinfo = self.detailItem!
+             var  detail : Finishinfo = self.detailItem!
             var orderNo = UILabel(frame: CGRectMake(8, 5, width, 20))
             orderNo.text = "订单编号:\(detail.orderNo)"
             orderNo.textColor = UIColor.blackColor()
             orderNo.font = UIFont.systemFontOfSize(15)
-            //orderNo.backgroundColor = UIColor.redColor()
             scrollView.addSubview(orderNo)
         
         
@@ -74,10 +66,7 @@ class FinishViewController: UIViewController {
             customerID.font = UIFont.systemFontOfSize(14)
             scrollView.addSubview(customerID)
             
-//            let levelImg = UIImageView(frame: CGRectMake(75, 41, 80, 16))
-//            levelImg.image = imageForRank(Detail1.levelImg)
-//            scrollView.addSubview(levelImg)
-            
+        
             var customerName = UILabel(frame: CGRectMake(8, 75, width, 20))
             customerName.text = "客户姓名:\(detail.customerName)"
             customerName.textColor = UIColor.blackColor()
@@ -178,20 +167,7 @@ class FinishViewController: UIViewController {
             confirmTime.font = UIFont.systemFontOfSize(14)
             scrollView.addSubview(confirmTime)
             var H = CGFloat(395)
-//            let startTime = UILabel(frame:CGRectMake(8, 335,width,20))
-//            startTime.text = "起始时间:\(detail.startTime)"
-//            startTime.textColor = UIColor.blackColor()
-//            startTime.font = UIFont.systemFontOfSize(14)
-////            startTime.numberOfLines = 0
-//            scrollView.addSubview(startTime)
-//        
-//            var overTime = UILabel(frame: CGRectMake(8, 355, width, 20))
-//            overTime.text = "结束时间:\(detail.overTime)"
-//            overTime.textColor = UIColor.blackColor()
-//            overTime.font = UIFont.systemFontOfSize(14)
-//            scrollView.addSubview(overTime)
-        
-        
+ 
         var lable4 = UILabel(frame: CGRectMake(0, H,width+16, 7))
         lable4.backgroundColor = button8C
         scrollView.addSubview(lable4)
@@ -326,7 +302,7 @@ class FinishViewController: UIViewController {
         scrollView.addSubview(EvaluationButton)
          scrollView.addSubview(CheckRefund)
          ScrollY = H+250
-         scrollView.contentSize=CGSizeMake(self.view.frame.width,ScrollY+64)
+         scrollView.contentSize=CGSizeMake(self.view.frame.width,H+250)
         
 
         
@@ -357,7 +333,7 @@ class FinishViewController: UIViewController {
     
     
     override func viewDidLayoutSubviews() {
-        scrollView.frame = CGRectMake(0, 64, self.view.frame.width, self.view.frame.height)
+        scrollView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         }
     
     //导航条详情

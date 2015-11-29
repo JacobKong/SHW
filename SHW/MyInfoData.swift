@@ -87,18 +87,17 @@ func QueryInfo(customerid:String) ->MyInfo  {
     var test1: AnyObject?=json.objectForKey("serverResponse")
     var MyInfoData:MyInfo!
     var response1:String = test1 as! String
-    println(response1)
+ 
     if  response1 == "Success" {
-        println("行不行")
+ 
        var value: AnyObject?  =  json.objectForKey("data")
   
 
-        println("行")
+ 
         var  id:Int =  value!.objectForKey("id") as! Int
-        println(id)
-         println("行")
+      
         var customerID:String=value!.objectForKey("customerID") as! String
-        println(customerID)
+   
         var customerName:String=value!.objectForKey("customerName") as! String
         var customerGender:String=value!.objectForKey("customerGender") as! String
         var customerBirthday:String=value!.objectForKey("customerBirthday") as! String
@@ -116,7 +115,7 @@ func QueryInfo(customerid:String) ->MyInfo  {
         var qqNumber:String = value!.objectForKey("qqNumber") as! String
         var loginPassword:String = value!.objectForKey("loginPassword") as! String
         var headPicture:String = value!.objectForKey("headPicture") as! String
-          println("行不行")
+   
         let obj:MyInfo = MyInfo(id:id,customerID:customerID,customerName:customerName,customerGender:customerGender,customerBirthday:customerBirthday,idCardNo:idCardNo,phoneNo:phoneNo,mobilePhone:mobilePhone,emailAddress:emailAddress,customerProvince:customerProvince,customerCity:customerCity,customerCounty:customerCounty,contactAddress:contactAddress,qqNumber:qqNumber,loginPassword:loginPassword,headPicture:headPicture)
         
         MyInfoData = obj

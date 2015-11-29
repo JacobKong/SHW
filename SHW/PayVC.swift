@@ -41,19 +41,8 @@ class PayVC: UIViewController {
         var width = self.view.frame.width
         var height = self.view.frame.height
         var labelW = self.view.frame.width - 20
-        
-//        var payinfo:PayInfo;
-   //     AlipayMethod.pay(Payinfo)
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
-        
- 
-        
-        //订单信息
-        var orderY = CGFloat(70)
+         //订单信息
+        var orderY = CGFloat(0)
         var order = UIButton(frame: CGRectMake(15, orderY, width-30, 30))
         order.setTitle("支付信息", forState: UIControlState.Normal)
         order.setTitleColor(UIColor.orangeColor(), forState: UIControlState.Normal)
@@ -89,8 +78,7 @@ class PayVC: UIViewController {
         self.view.addSubview(customerName)
         
         //预定按钮
-       // var CBY = customerInfoY+115+30
-         var CBY = self.view.frame.height-70
+        var CBY = self.view.frame.height-200
         yuyue = UIButton(frame:CGRectMake(width/2-125, CBY,250,30))
         yuyue! .setTitle("确认支付", forState:UIControlState.Normal)
         yuyue!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)

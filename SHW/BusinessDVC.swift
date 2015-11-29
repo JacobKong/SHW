@@ -63,7 +63,25 @@ class BusinessDVC: UIViewController,UIAlertViewDelegate,UIScrollViewDelegate,NSU
  
 
         var width1 = self.view.frame.width
-        scrollView = UIScrollView(frame: CGRectMake(0, 64, width1, self.view.frame.height*5))
+        
+        
+        
+        introImg.frame = CGRectMake(0, 0, width1, 216)
+        println("宽度\(self.view.frame.width)")
+        //        //网络地址获取图片
+        //1.定义一个地址字符串常量
+        imageUrlString = HttpData.http+"/FamilyServiceSystem\(detailItem.facilitatorLogo)"
+        //2.通过String类型，转换NSUrl对象
+        //        let url :NSURL = NSURL(string: imageUrlString!)!
+        //
+        //        //3.发出异步请求
+        //        var request = NSURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 10)
+        //        //4.连接服务器
+        //        var connection =  NSURLConnection(request:request, delegate:self)
+        introImg.setZYHWebImage(imageUrlString, defaultImage: "reserve2.jpg" )
+        self.view.addSubview(introImg)
+        
+        scrollView = UIScrollView(frame: CGRectMake(0, 280, width1, self.view.frame.height*5))
         scrollView.contentSize=CGSizeMake(width1,self.view.frame.height*5)
         //scrollView.contentInset = UIEdgeInsetsMake(-64,0,0, 0)
         scrollView.pagingEnabled = false
@@ -73,11 +91,11 @@ class BusinessDVC: UIViewController,UIAlertViewDelegate,UIScrollViewDelegate,NSU
         scrollView.bounces = false
         scrollView.scrollsToTop = false 
         self.view.addSubview(scrollView)
-        
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width1, 64))
-        self.view.addSubview(navigationBar!)
-        onMakeNavitem()
+//        
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width1, 64))
+//        self.view.addSubview(navigationBar!)
+//        onMakeNavitem()
         
         var facilitatorName = UILabel(frame: CGRectMake(8, 0, 300, 20))
         facilitatorName.text = "商家名称:\(detailItem.facilitatorName)"
@@ -188,22 +206,22 @@ class BusinessDVC: UIViewController,UIAlertViewDelegate,UIScrollViewDelegate,NSU
         
 //        var front = UIFont(name: "Arial", size: 14)
 //        var size = CGSizeMake(self.view.frame.width,200)
+//        
+//        introImg.frame = CGRectMake((width1-216)/2, 190, 216, 216)
+//        println("宽度\(self.view.frame.width)")
+//        //        //网络地址获取图片
+//        //1.定义一个地址字符串常量
+//        imageUrlString = HttpData.http+"/FamilyServiceSystem\(detailItem.facilitatorLogo)"
+//        //2.通过String类型，转换NSUrl对象
+//        //        let url :NSURL = NSURL(string: imageUrlString!)!
+//        //
+//        //        //3.发出异步请求
+//        //        var request = NSURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 10)
+//        //        //4.连接服务器
+//        //        var connection =  NSURLConnection(request:request, delegate:self)
+//        introImg.setZYHWebImage(imageUrlString, defaultImage: "reserve2.jpg" )
         
-        introImg.frame = CGRectMake((width1-216)/2, 190, 216, 216)
-        println("宽度\(self.view.frame.width)")
-        //        //网络地址获取图片
-        //1.定义一个地址字符串常量
-        imageUrlString = HttpData.http+"/FamilyServiceSystem\(detailItem.facilitatorLogo)"
-        //2.通过String类型，转换NSUrl对象
-        //        let url :NSURL = NSURL(string: imageUrlString!)!
-        //
-        //        //3.发出异步请求
-        //        var request = NSURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 10)
-        //        //4.连接服务器
-        //        var connection =  NSURLConnection(request:request, delegate:self)
-        introImg.setZYHWebImage(imageUrlString, defaultImage: "reserve2.jpg" )
-        
-        scrollView.addSubview(introImg)
+//        scrollView.addSubview(introImg)
         // 商家介绍
         //计算文字的高度
 //        var text = detailItem.facilitatorIntro
@@ -219,7 +237,7 @@ class BusinessDVC: UIViewController,UIAlertViewDelegate,UIScrollViewDelegate,NSU
         
         
         var introheight = TH
-        let introText = UILabel(frame:CGRectMake(8, 415,labelW,introheight ))
+        let introText = UILabel(frame:CGRectMake(8, 200,labelW,introheight ))
         introText.text = "介绍:\(detailItem.facilitatorIntro)"
         introText.textColor = UIColor.blackColor()
         introText.font = font
@@ -229,13 +247,13 @@ class BusinessDVC: UIViewController,UIAlertViewDelegate,UIScrollViewDelegate,NSU
         
  
     
-                var registrationTime = UILabel(frame: CGRectMake(8, 420+introheight, 150, 20))
+                var registrationTime = UILabel(frame: CGRectMake(8, 200+introheight, 150, 20))
                 registrationTime.text = "注册时间:\(detailItem.registerTime)"
                 registrationTime.textColor = UIColor.blackColor()
                 registrationTime.font = UIFont.systemFontOfSize(14)
                 scrollView.addSubview(registrationTime)
     
-                var serviceAmount = UILabel(frame: CGRectMake(200, 420+introheight, 100, 20))
+                var serviceAmount = UILabel(frame: CGRectMake(200, 200+introheight, 100, 20))
                 serviceAmount.text = "服务次数:\(detailItem.serviceCount)次"
                 serviceAmount.textColor = UIColor.blackColor()
                 serviceAmount.font = UIFont.systemFontOfSize(14)
@@ -329,7 +347,7 @@ class BusinessDVC: UIViewController,UIAlertViewDelegate,UIScrollViewDelegate,NSU
     
     
     override func viewDidLayoutSubviews() {
-        scrollView.frame = CGRectMake(0, 64, self.view.frame.width, self.view.frame.height)
+        scrollView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
     }
     //服务项目的跳转函数
     func  Common(term1:UIButton){

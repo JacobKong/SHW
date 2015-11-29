@@ -21,11 +21,11 @@ class ChangeHeadPictureVC: UIViewController {
         //宽高
         var pageWidth = self.view.frame.width
         var pageHeight = self.view.frame.height
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情")
+//        onMakeNavitem()
         
 
                 //        //网络地址获取图片

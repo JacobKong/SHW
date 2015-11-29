@@ -35,12 +35,12 @@ class WorkerVC: UIViewController,UITableViewDataSource,UITableViewDelegate,UIAle
         workerTable.dataSource = self
         workerTable.delegate = self
        
-
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
+//
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情")
+//        onMakeNavitem()
     }
     
     //导航条详情

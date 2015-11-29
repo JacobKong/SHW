@@ -8,9 +8,10 @@
 
 import Foundation
 struct HttpData {
-//    static let  http  = "http://59.46.2.105:8080"
-static let  http  = "http://219.216.65.182:8080"
-//    static let  http  = "http://192.168.1.113:8080"
+ 
+    static let  http  = "http://219.216.65.182:8080"
+   // static let  http  = "http://192.168.1.105:8080"
+    
     static var  customerid:String = ""
     static var  loginpassword:String = ""
     static var  salary = "0"

@@ -55,11 +55,11 @@ class CollectionVC: UIViewController,UITableViewDataSource,UITableViewDelegate ,
       
      
             
-            //实例化导航条
-            navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-            self.view.addSubview(navigationBar!)
-            println("创建导航条详情")
-            onMakeNavitem()
+//            //实例化导航条
+//            navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
+//            self.view.addSubview(navigationBar!)
+//            println("创建导航条详情")
+//            onMakeNavitem()
             
             data1 = ["商家","人员"]
  
