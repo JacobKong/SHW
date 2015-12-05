@@ -37,16 +37,10 @@ class EvaluateVC: UIViewController,UIAlertViewDelegate {
     var buttonC = UIColor(red: 204/255, green: 204/255, blue: 204/255, alpha: 1.0)
     override func viewDidLoad() {
         super.viewDidLoad()
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
-        
-        
+ 
         var width = self.view.frame.width
         var  height = self.view.frame.height
-        var  EvaluateY = CGFloat(80)
+        var  EvaluateY = CGFloat(0)
         var Evaluate = UIButton(frame: CGRectMake(15, EvaluateY, width, 25))
         Evaluate.setTitle("店铺评分:", forState: UIControlState.Normal)
         Evaluate.setTitleColor(UIColor.orangeColor(), forState: UIControlState.Normal)
@@ -57,7 +51,7 @@ class EvaluateVC: UIViewController,UIAlertViewDelegate {
         
         var BuW = (width - 30)/5-4
         var BuW1 = (width - 30)/5
-        var BuY = CGFloat(120)
+        var BuY = CGFloat(25)
      
 
         Button1 = UIButton(frame: CGRectMake(15, BuY, BuW, 25))
@@ -128,14 +122,15 @@ class EvaluateVC: UIViewController,UIAlertViewDelegate {
         Button8.backgroundColor = buttonC
         Button8.addTarget(self , action: Selector("tapped8:"), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(Button8)
-        }else {
+        }else{
             EvaluateS.hidden = true
             Button6.hidden = true
             Button7.hidden = true
             Button8.hidden = true
         }
         
-        tijiao = UIButton(frame: CGRectMake(width/2-125,height-70, 250, 30))
+        
+        tijiao = UIButton(frame: CGRectMake(width/2-125,height-200, 250, 30))
         tijiao.setTitle("确认提交", forState: UIControlState.Normal)
         tijiao.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         tijiao.backgroundColor = UIColor.orangeColor()
@@ -143,12 +138,9 @@ class EvaluateVC: UIViewController,UIAlertViewDelegate {
         tijiao.addTarget(self , action: Selector("tapped9:"), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(tijiao)
         
-
-
-        
-        
-    
     }
+    
+    
     func tapped1(Button1:UIButton){
         Button1.backgroundColor = UIColor.orangeColor()
         Button2.backgroundColor = buttonC
@@ -293,51 +285,13 @@ class EvaluateVC: UIViewController,UIAlertViewDelegate {
         self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //导航条详情
-    func reply (){
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func onMakeNavitem() -> UINavigationItem{
-        println("创建导航条step1")
-        //创建一个导航项
-        var navigationItem = UINavigationItem()
-        //创建左边按钮
-        var leftButton =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Reply, target: self, action: "reply")
-        //var leftButton =  UIBarButtonItem(title: "返回", style: UIBarButtonItemStyle.Bordered, target: self, action: "reply")
-        //导航栏的标题
-        navigationItem.title = "评价详情"
-        //设置导航栏左边按钮
-        navigationItem.setLeftBarButtonItem(leftButton, animated: true)
-        navigationBar?.pushNavigationItem(navigationItem, animated: true)
-        
-        
-        return navigationItem
-    }
 
-    override func didReceiveMemoryWarning() {
+    
+       override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+ 
 
 }

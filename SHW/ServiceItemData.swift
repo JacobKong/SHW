@@ -31,14 +31,11 @@ class serviceItemInfo:NSObject {
             self.itemName = itemName
             self.facilitatorID = facilitatorID
             self.serviceType = serviceType
-            
             self.itemIntro = itemIntro
             self.priceDescription = priceDescription
             self.servicePicture = servicePicture
             self.isPackage = isPackage
             self.itemType = itemType
-        
-            
             super.init()
     }
     
@@ -105,7 +102,7 @@ func refreshCommonItem(facilitatorID:String) ->NSArray  {
     
 }
 
-
+//查询某商家的一口价项目
 func refreshPackageItem(facilitatorID:String) ->NSArray  {
     var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileFacilitatorInfoAction?operation=_detailQuery")
     println("查询指定refreshPackageItem")

@@ -38,11 +38,11 @@ class LocationViewController: UIViewController,UITableViewDelegate, UITableViewD
         var width = self.view.frame.width
         var height = self.view.frame.height
 
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建导航条详情")
-        onMakeNavitem()
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建导航条详情")
+//        onMakeNavitem()
 
         self.title = "城市选择"
         

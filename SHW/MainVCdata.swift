@@ -16,14 +16,16 @@ class ServiceType:NSObject {
     var typeLogo:String
     var isPerson:String
     var parentId:Int
+    var pageSize:Int
 
-    init(id :Int,typeName:String,typeIntro:String,typeLogo:String,isPerson:String,parentId:Int){
+    init(id :Int,typeName:String,typeIntro:String,typeLogo:String,isPerson:String,parentId:Int,pageSize:Int){
             self.id = id
             self.typeName = typeName
             self.typeIntro = typeIntro
             self.typeLogo = typeLogo
             self.isPerson = isPerson
             self.parentId = parentId
+            self.pageSize = pageSize
   
             super.init()
     }
@@ -38,7 +40,7 @@ func refreshParentType(select:String) ->NSArray  {
     request.HTTPMethod = "POST"
     
     let param:String = "{\"typeName\":\"\(select)\"}"
-    print("param\(param)")
+    println("param\(param)")
     let data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
     var response:NSURLResponse?
@@ -46,13 +48,11 @@ func refreshParentType(select:String) ->NSArray  {
     var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-        println(error?.code)
-        println(error?.description)
-    }
+     }
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-         println("jsonString\(jsonString)")
+          println("jsonString\(jsonString)")
         
     }
     
@@ -71,18 +71,18 @@ func refreshParentType(select:String) ->NSArray  {
             let id:Int=value.objectForKey("id") as! Int
             let typeName:String=value.objectForKey("typeName") as! String
             let typeIntro:String=value.objectForKey("typeIntro") as! String
-            let typeLogo:String=value.objectForKey("typeLogo") as! String
+            let typeLogo:String=value.objectForKey("typeLogo2") as! String
             let isPerson:String=value.objectForKey("isPerson")as!String
             let parentId:Int=value.objectForKey("parentId") as! Int
+            let pageSize:Int=value.objectForKey("parentId") as! Int
             
             
-            let obj:ServiceType=ServiceType(id:id,typeName:typeName,typeIntro:typeIntro,typeLogo:typeLogo,isPerson:isPerson,parentId:parentId )
+            let obj:ServiceType=ServiceType(id:id,typeName:typeName,typeIntro:typeIntro,typeLogo:typeLogo,isPerson:isPerson,parentId:parentId,pageSize:pageSize)
             
             ServiceTypeData += [obj]
-            
-            
-            
         }
+        
+        
     }
  
     return ServiceTypeData
@@ -98,7 +98,7 @@ func refreshServiceType(select:String) ->NSArray  {
     request.HTTPMethod = "POST"
   
     var param:String = "{\"typeName\":\"\(select)\"}"
-    println("typeName\(select)")
+  
     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
     var response:NSURLResponse?
@@ -106,14 +106,14 @@ func refreshServiceType(select:String) ->NSArray  {
     var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-        println(error?.code)
-        println(error?.description)
+      
       
     }
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-        println(jsonString)
+        
+       
         
     }
     
@@ -135,12 +135,13 @@ func refreshServiceType(select:String) ->NSArray  {
         var typeLogo:String=value.objectForKey("typeLogo") as! String
         var isPerson:String=value.objectForKey("isPerson") as! String
         var parentId:Int=value.objectForKey("parentId") as! Int
-       
+        let pageSize:Int=value.objectForKey("parentId") as! Int
         
-        let obj:ServiceType=ServiceType(id:id,typeName:typeName,typeIntro:typeIntro,typeLogo:typeLogo,isPerson:isPerson,parentId:parentId )
+        
+        let obj:ServiceType=ServiceType(id:id,typeName:typeName,typeIntro:typeIntro,typeLogo:typeLogo,isPerson:isPerson,parentId:parentId,pageSize:pageSize)
       
         ServiceTypeData += [obj]
-//        println(obj)
+        println(obj)
         
         
     }
@@ -152,67 +153,67 @@ func refreshServiceType(select:String) ->NSArray  {
 
 
 //根据子类名称得到其详情
-func getServiceType(select:String) ->ServiceType{
-    println("chaxunzileixiangqing")
-    //要改URL
-    var url: NSURL! = NSURL(string:HttpData.http+"/FamilyServiceSystem/MobileServiceTypeAction?operation=_queryByName")
-    
-    var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
-    
-    request.HTTPMethod = "POST"
-    
-    var param:String = "{\"typeName\":\"\(select)\"}"
-    println("typeName\(select)")
-    var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
-    request.HTTPBody = data;
-    var response:NSURLResponse?
-    var error:NSError?
-    var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
-    if (error != nil)
-    {
-        println(error?.code)
-        println(error?.description)
-        
-    }
-    else
-    {
-        var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
-        println("jsonString\(jsonString)")
-        
-    }
-    
-    let json:AnyObject! = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
- 
-    var test1: AnyObject?=json.objectForKey("serverResponse")
-    var ServiceTypeData:ServiceType?
-    var serverResponse:String = test1 as! String
-    
-    if serverResponse == "Success" {
-        var value: AnyObject = json.objectForKey("data")!
-      
-            println("serverResponse\(serverResponse)")
-            var id:Int=value.objectForKey("id") as! Int
-            println("id\(id)")
-
-            var typeName:String=value.objectForKey("typeName") as! String
-            var typeIntro:String=value.objectForKey("typeIntro") as! String
-            var typeLogo:String=value.objectForKey("typeLogo") as! String
-            var isPerson:String=value.objectForKey("isPerson") as! String
-            var parentId:Int=value.objectForKey("parentId") as! Int
-            
-            
-            let obj:ServiceType=ServiceType(id: id,typeName:typeName,typeIntro:typeIntro,typeLogo:typeLogo,isPerson:isPerson,parentId:parentId )
-            
-            ServiceTypeData = obj
-            //        println(obj)
-            
-       
-    }
-    return ServiceTypeData!
-
-}
-
-
+//func getServiceType(select:String) ->ServiceType{
+//   
+//    //要改URL
+//    var url: NSURL! = NSURL(string:HttpData.http+"/FamilyServiceSystem/MobileServiceTypeAction?operation=_queryByName")
+//    
+//    var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
+//    
+//    request.HTTPMethod = "POST"
+//    
+//    var param:String = "{\"typeName\":\"\(select)\"}"
+//    
+//    println(param)
+//     var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+//    request.HTTPBody = data;
+//    var response:NSURLResponse?
+//    var error:NSError?
+//    var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+//    if (error != nil)
+//    {
+//        
+//        
+//    }
+//    else
+//    {
+//        var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
+//   
+//        
+//    }
+//    
+//    let json:AnyObject! = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
+// 
+//    var test1: AnyObject?=json.objectForKey("serverResponse")
+//    var ServiceTypeData:ServiceType?
+//    var serverResponse:String = test1 as! String
+//    
+//    if serverResponse == "Success" {
+//        var value: AnyObject = json.objectForKey("data")!
+//      
+//        
+//            var id:Int=value.objectForKey("id") as! Int
+//            var typeName:String=value.objectForKey("typeName") as! String
+//            var typeIntro:String=value.objectForKey("typeIntro") as! String
+//            var typeLogo:String=value.objectForKey("typeLogo") as! String
+//            var isPerson:String=value.objectForKey("isPerson") as! String
+//            var parentId:Int=value.objectForKey("parentId") as! Int
+//            let pageSize:Int=value.objectForKey("pageSize") as! Int
+//        
+//            
+//            
+//        let obj:ServiceType=ServiceType(id: id,typeName:typeName,typeIntro:typeIntro,typeLogo:typeLogo,isPerson:isPerson,parentId:parentId,pageSize:pageSize)
+//        
+//            ServiceTypeData = obj
+//        
+//            
+//       
+//    }
+//    return ServiceTypeData!
+//
+//}
+//
+//
 
 
 
@@ -236,46 +237,42 @@ class  HomeAdvertise:NSObject{
     
 }
 
-func refreshAdvertise() ->NSArray  {
+func refreshAdvertise(PageNo:Int) ->NSArray{
  
-    
     //创建NSURL
     var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileFacilitatorAdvertiseAction?operation=_query")
-    //创建请求对象
     var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
-    //响应对象
-    var response:NSURLResponse?
-    //错误对象
-    var error:NSError?
-    //发出请求
-    var data:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     
+    request.HTTPMethod = "POST"
+    
+    var param:String = "{\"pageNo\":\"\(PageNo)\"}"
+    println(PageNo)
+    var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+    request.HTTPBody = data;
+    var response:NSURLResponse?
+    var error:NSError?
+    var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-        println(error?.code)
-        println(error?.description)
+        
     }
     else
     {
-        var jsonString = NSString(data:data!, encoding: NSUTF8StringEncoding)
-        
-          println(jsonString)
+        var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
         
     }
 
-    var json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil)
+    
+    var json: AnyObject? = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
     
     var test1: AnyObject?=json?.objectForKey("serverResponse")
     var serverResponse:String = test1 as! String
     var AdvertiseData:[HomeAdvertise] = []
-    
     if serverResponse == "Success" {
     var test2: AnyObject?=json?.objectForKey("data")
     let jsonArray = test2 as? NSArray
     var count = jsonArray?.count
-    
-    println("dsvcqgrdbwvr")
-    for value in jsonArray!{
+     for value in jsonArray!{
         
         var id:Int=value.objectForKey("id") as! Int
         var advertisePicture:String=value.objectForKey("advertisePicture") as! String
@@ -303,8 +300,7 @@ func getImageData(url:String?)->NSData?{
     
         if data != nil {
             dataA = data
-            println("直接读缓存")
-            
+             
         }else{
          
             var URL:NSURL = NSURL(string:url!)!
@@ -314,14 +310,11 @@ func getImageData(url:String?)->NSData?{
                 
                 dataA = data
                 //写缓存
-                println("写缓存1")
-                ZYHWebImageChcheCenter.writeCacheToUrl(url!, data: data!)
+                 ZYHWebImageChcheCenter.writeCacheToUrl(url!, data: data!)
                 
             }
         }
-    
-    println("直接")
-    return dataA
+     return dataA
     
 }
 

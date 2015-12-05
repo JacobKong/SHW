@@ -67,11 +67,11 @@ class PackageOrder: UIViewController,UITextFieldDelegate,UIAlertViewDelegate,NSU
         var height = self.view.frame.height
         var labelW = self.view.frame.width - 20
         
-        //实例化导航条
-        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
-        self.view.addSubview(navigationBar!)
-        println("创建PackageOrder")
-        onMakeNavitem()
+//        //实例化导航条
+//        navigationBar = UINavigationBar(frame: CGRectMake(0, 0, width, 64))
+//        self.view.addSubview(navigationBar!)
+//        println("创建PackageOrder")
+//        onMakeNavitem()
         //1、创建手势实例，并连接方法UITapGestureRecognizer,点击手势
         var recognizer =  UITapGestureRecognizer(target:self, action:"touchScrollView:")
         println("touchScrollView")
