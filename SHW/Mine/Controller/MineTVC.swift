@@ -168,10 +168,10 @@ class MineTVC: UITableViewController {
                     break
                     
                 default:
-//                    let vc = ChangeHeadPictureVC()
-//                    vc.Picturename = MineData.headPicture
-//                    vc.customerID = MineData.customerID
-//                    self.navigationController!.pushViewController(vc, animated:true)
+                    let vc = ChangeHeadPictureVC()
+                    vc.Picturename = MineData.headPicture
+                    vc.customerID = MineData.customerID
+                    self.navigationController!.pushViewController(vc, animated:true)
 
                     break
                 }

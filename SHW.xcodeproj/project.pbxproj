@@ -76,7 +76,6 @@
 		1F69F4201C0D8DEF0010149B /* FacilitatorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F69F4181C0D8DEF0010149B /* FacilitatorInfo.swift */; };
 		1F69F4211C0D8DEF0010149B /* PackageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F69F4191C0D8DEF0010149B /* PackageData.swift */; };
 		1F6D82651C084AB100B39C3C /* navgation_back_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F6D82641C084AB100B39C3C /* navgation_back_arrow@2x.png */; };
-		1F7A38D31B08E47800776F4F /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A38D21B08E47800776F4F /* MainVC.swift */; };
 		1F84A9661B71E32300FE8B85 /* PackageOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F84A9651B71E32300FE8B85 /* PackageOrder.swift */; };
 		1F84A9691B71E7C100FE8B85 /* CommonOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F84A9681B71E7C100FE8B85 /* CommonOrder.swift */; };
 		1F84A96B1B7239D800FE8B85 /* PayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F84A96A1B7239D800FE8B85 /* PayVC.swift */; };
@@ -307,7 +306,6 @@
 		1F69F4181C0D8DEF0010149B /* FacilitatorInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacilitatorInfo.swift; sourceTree = "<group>"; };
 		1F69F4191C0D8DEF0010149B /* PackageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageData.swift; sourceTree = "<group>"; };
 		1F6D82641C084AB100B39C3C /* navgation_back_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navgation_back_arrow@2x.png"; sourceTree = "<group>"; };
-		1F7A38D21B08E47800776F4F /* MainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		1F84A9651B71E32300FE8B85 /* PackageOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageOrder.swift; sourceTree = "<group>"; };
 		1F84A9681B71E7C100FE8B85 /* CommonOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonOrder.swift; sourceTree = "<group>"; };
 		1F84A96A1B7239D800FE8B85 /* PayVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayVC.swift; sourceTree = "<group>"; };
@@ -955,7 +953,6 @@
 				1F15F0FF1B20244200BC9299 /* Main.storyboard */,
 				1F90C2E71B422E27008618B4 /* erweimaViewController.swift */,
 				1F380C631B69CA430076ABB7 /* JSDropDownMenu.m */,
-				1F7A38D21B08E47800776F4F /* MainVC.swift */,
 				F806DA691B083CAF00BA6DCD /* AppDelegate.swift */,
 				1F4478781B9FEAE300ED8B8A /* u4.png */,
 				1F44786E1B9E7F0B00ED8B8A /* check.png */,
@@ -1295,7 +1292,6 @@
 				1F84A96B1B7239D800FE8B85 /* PayVC.swift in Sources */,
 				1F4982C31C1280110048A265 /* CollectiontabelViewController.swift in Sources */,
 				1FEB067F1C0E88DC00A1E442 /* AlterRefund.swift in Sources */,
-				1F7A38D31B08E47800776F4F /* MainVC.swift in Sources */,
 				1FEB06721C0DC11300A1E442 /* ServantData.swift in Sources */,
 				1F4982BF1C1280110048A265 /* BaseInfoVC.swift in Sources */,
 				1F1B1F2B1C049C3400F52545 /* HSTabBar.m in Sources */,
