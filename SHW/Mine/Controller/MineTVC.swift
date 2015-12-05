@@ -179,7 +179,7 @@ class MineTVC: UITableViewController {
 
                 
             }else{
-                
+                //测试
                 let vc = LoginVC()
                 self.navigationController!.pushViewController(vc, animated:true)
                 
