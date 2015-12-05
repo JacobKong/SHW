@@ -26,6 +26,7 @@ class TabBarViewController: HSTabBarViewController {
         
         
         let homeViewController: FindService = FindService()
+     
         self.addTabBarItemWithViewController(homeViewController, title: "找服务", image: "home", selectedImage: "home_highlighted", isWapperedByNavigationController: true)
         
         let orderViewController: FinishVController = FinishVController()

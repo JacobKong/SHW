@@ -50,10 +50,10 @@ UIScrollViewDelegate,UIAlertViewDelegate,NSURLConnectionDelegate,NSURLConnection
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       //  test()
+        //self.hidesBottomBarWhenPushed = true
         self.title = "找服务"
         //初始化数据
-        AdvertiseDatas = refreshAdvertise() as! [HomeAdvertise]
+        AdvertiseDatas = refreshAdvertise(1) as! [HomeAdvertise]
         FirstTypeData  = refreshParentType("") as! [ServiceType]
         //定位
         GetLocation()
@@ -70,7 +70,7 @@ UIScrollViewDelegate,UIAlertViewDelegate,NSURLConnectionDelegate,NSURLConnection
         let  leadheight = viewBounds.height*0.11
         
         var scrollviewheight = viewBounds.height*0.27
-//        var pageCtrly = leadheight + scrollviewheight-viewBounds.height*0.03
+//      var pageCtrly = leadheight + scrollviewheight-viewBounds.height*0.03
         var pageCtrly = viewBounds.height*0.25
 
         var pageCtrlheight = 37
@@ -94,7 +94,9 @@ UIScrollViewDelegate,UIAlertViewDelegate,NSURLConnectionDelegate,NSURLConnection
            // var imgView = UIButton()
             //网络地址获取图片
             //1.定义一个地址字符串常量
-            imageUrlString = HttpData.http+"/FamilyServiceSystem/upload/ad/\(AdvertiseDatas[i].id)/\(AdvertiseDatas[i].advertisePicture)"
+//            imageUrlString = HttpData.http+"/FamilyServiceSystem/upload/ad/\(AdvertiseDatas[i].id)/\(AdvertiseDatas[i].advertisePicture)"
+            imageUrlString = HttpData.http+"/FamilyServiceSystem/\(AdvertiseDatas[i].advertisePicture)"
+            println(imageUrlString)
            //2.通过String类型，转换NSUrl对象
             let url:NSString = imageUrlString!.URLEncodedString()
             var data = getImageData(url as String)
@@ -118,8 +120,8 @@ UIScrollViewDelegate,UIAlertViewDelegate,NSURLConnectionDelegate,NSURLConnection
         pageCtrl.addTarget(self, action:"pageTurn:" ,forControlEvents:UIControlEvents.ValueChanged) //用户点击UIPageControl的响应函数
         self.view.addSubview(pageCtrl)
         
-        //5.设置定时器（滑动切换图片）
-        var timer = NSTimer.scheduledTimerWithTimeInterval(3.5, target: self, selector: "timerFireMethod:", userInfo: nil, repeats:true);
+//        //5.设置定时器（滑动切换图片）
+//        var timer = NSTimer.scheduledTimerWithTimeInterval(3.5, target: self, selector: "timerFireMethod:", userInfo: nil, repeats:true);
         
         
         
@@ -194,21 +196,21 @@ UIScrollViewDelegate,UIAlertViewDelegate,NSURLConnectionDelegate,NSURLConnection
  
     }
     //6.定时器函数
-    func timerFireMethod(timer: NSTimer) {
-        
-        //令UIScrollView做出相应的滑动显示
-        self.pageCtrl.currentPage = (self.pageCtrl.currentPage+1)%AdvertiseDatas.count
-        var viewSize:CGSize  = scrollView.frame.size
-        var rect:CGRect = CGRect(x:CGFloat(self.pageCtrl.currentPage)*viewSize.width , y: 0, width: viewSize.width, height: viewSize.height)
-        scrollView.scrollRectToVisible(rect , animated:true);
-        //imgLabel.text = AdvertiseDatas[pageCtrl.currentPage].signName
-    }
-    //7.单击滚动图片事件
-    func clickImg( sender:UIButton) {
-        urlSelected = AdvertiseDatas[pageCtrl.currentPage].facilitatorID
-        self.performSegueWithIdentifier("AdvertTo", sender: self)
-        
-    }
+//    func timerFireMethod(timer: NSTimer) {
+//        
+//        //令UIScrollView做出相应的滑动显示
+//        self.pageCtrl.currentPage = (self.pageCtrl.currentPage+1)%AdvertiseDatas.count
+//        var viewSize:CGSize  = scrollView.frame.size
+//        var rect:CGRect = CGRect(x:CGFloat(self.pageCtrl.currentPage)*viewSize.width , y: 0, width: viewSize.width, height: viewSize.height)
+//        scrollView.scrollRectToVisible(rect , animated:true);
+//        //imgLabel.text = AdvertiseDatas[pageCtrl.currentPage].signName
+//    }
+//    //7.单击滚动图片事件
+//    func clickImg( sender:UIButton) {
+//        urlSelected = AdvertiseDatas[pageCtrl.currentPage].facilitatorID
+//        self.performSegueWithIdentifier("AdvertTo", sender: self)
+//        
+//    }
     
     func toLocation(Location:UIButton){
         println("怎么样了")

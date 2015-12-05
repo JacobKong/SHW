@@ -38,7 +38,7 @@
     // 设置导航栏字体
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     dict[NSForegroundColorAttributeName] = [UIColor whiteColor];
-    dict[NSFontAttributeName] = [UIFont systemFontOfSize:19 weight:11.0];
+    dict[NSFontAttributeName] = [UIFont systemFontOfSize:19 weight:11.0];//出问题1
 //    dict[UITextAttributeTextShadowOffset] = [NSValue valueWithUIOffset:UIOffsetZero];
     [navBar setTitleTextAttributes:dict];
     // 设置导航栏颜色
@@ -46,7 +46,7 @@
     // 设置返回按钮颜色
     [navBar setTintColor:[UIColor whiteColor]];
     //设置navigationbar的半透明
-    [navBar setTranslucent:NO];
+    [navBar setTranslucent:NO];//出问题2
 //   设置indicator
     [navBar setBackIndicatorImage:[UIImage imageNamed:@"navgation_back_arrow"]];
     [navBar setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"navgation_back_arrow"]];

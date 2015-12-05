@@ -17,7 +17,7 @@
 // framework框架头文件导入方法
 #import <BaiduMapAPI/BMapKit.h>  //引入所有的头文件
 #import "NSString+URL.h"
-#import "YHPickView.h"
+//#import "YHPickView.h"
 #import "HSTabBarViewController.h"
 
 #endif

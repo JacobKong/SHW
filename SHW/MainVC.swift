@@ -68,7 +68,7 @@ class MainVC: UIViewController , UITableViewDelegate,
         
             // GetLocation()
 
-        AdvertiseDatas = refreshAdvertise() as! [HomeAdvertise]
+        //AdvertiseDatas = refreshAdvertise("ll") as! [HomeAdvertise]
         FirstTypeData  = refreshParentType("") as! [ServiceType]
      
         

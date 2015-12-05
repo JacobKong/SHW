@@ -40,7 +40,7 @@ func refreshParentType(select:String) ->NSArray  {
     request.HTTPMethod = "POST"
     
     let param:String = "{\"typeName\":\"\(select)\"}"
-    print("param\(param)")
+    println("param\(param)")
     let data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
     request.HTTPBody = data;
     var response:NSURLResponse?
@@ -52,6 +52,7 @@ func refreshParentType(select:String) ->NSArray  {
     else
     {
         var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
+          println("jsonString\(jsonString)")
         
     }
     
@@ -236,36 +237,37 @@ class  HomeAdvertise:NSObject{
     
 }
 
-func refreshAdvertise() ->NSArray  {
+func refreshAdvertise(PageNo:Int) ->NSArray{
  
-    
     //创建NSURL
     var url: NSURL! = NSURL(string: HttpData.http+"/FamilyServiceSystem/MobileFacilitatorAdvertiseAction?operation=_query")
-    //创建请求对象
     var request:NSMutableURLRequest = NSMutableURLRequest(URL:url, cachePolicy:NSURLRequestCachePolicy.UseProtocolCachePolicy,timeoutInterval: 10)
-    //响应对象
-    var response:NSURLResponse?
-    //错误对象
-    var error:NSError?
-    //发出请求
-    var data:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     
+    request.HTTPMethod = "POST"
+    
+    var param:String = "{\"pageNo\":\"\(PageNo)\"}"
+    println(PageNo)
+    var data:NSData = param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+    request.HTTPBody = data;
+    var response:NSURLResponse?
+    var error:NSError?
+    var receiveData:NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
     if (error != nil)
     {
-     }
+        
+    }
     else
     {
-        var jsonString = NSString(data:data!, encoding: NSUTF8StringEncoding)
-        
+        var jsonString = NSString(data:receiveData!, encoding: NSUTF8StringEncoding)
         
     }
 
-    var json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil)
+    
+    var json: AnyObject? = NSJSONSerialization.JSONObjectWithData(receiveData!, options: NSJSONReadingOptions.AllowFragments, error: nil)
     
     var test1: AnyObject?=json?.objectForKey("serverResponse")
     var serverResponse:String = test1 as! String
     var AdvertiseData:[HomeAdvertise] = []
-    
     if serverResponse == "Success" {
     var test2: AnyObject?=json?.objectForKey("data")
     let jsonArray = test2 as? NSArray
